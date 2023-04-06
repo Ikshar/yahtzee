@@ -1,6 +1,6 @@
 import anime from "animejs/lib/anime.es.js";
 import { times } from "lodash-es";
-import { useCallback, useContext } from "react";
+import { useCallback, useContext, useEffect, useRef } from "react";
 import { TableContext } from "../ctx/TableContext";
 import { rerollUnheld } from "../logic/reroll";
 import { RoundStage } from "../types";
@@ -25,17 +25,17 @@ export function ControlButton() {
   const [ state, dispatch ] = useContext(TableContext);
   const { values, selected, currentPlayer, stage } = state;
 
-  // ? animation works only once for some reason
-  const animateDice = useCallback(() => {
-    anime({
-      targets: ".die.initial",
+  const animation = useRef(anime.timeline());
+  useEffect(() => {
+    animation.current.add({
+      targets: `.die.initial`,
       rotate: "2turn",
       duration: 1000,
     });
   }, []);
 
   const handleClick = useCallback(() => {
-    animateDice();
+    animation.current.restart();
     dispatch({ type: "setSelected" });
     dispatch({ type: "setStage", payload: stageInfo[stage].nextStage });
     dispatch({
