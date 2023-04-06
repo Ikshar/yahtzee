@@ -5,9 +5,6 @@ export type Hand = {
 
 export const DiceValues = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"];
 
-// todo: split into RoundStage and GameStage
-// RoundStage: Initial, Decision, RoundOutcome
-// GameStage: <P>Turn, GameOutcome
 export enum GameStage {
   ActiveRound = "ActiveRound",
   GameOutcome = "GameOutcome",
@@ -35,18 +32,21 @@ export enum Combination {
   Chance = "Chance", // Any combination
 }
 
-export type PlayerScore = {
-  Aces: number;
-  Twos: number;
-  Three: number;
-  Fours: number;
-  Fives: number;
-  Sixes: number;
-  ThreeOfAKind: number;
-  FourOfAKind: number;
-  FullHouse: number;
-  SmallStraight: number;
-  LargeStraight: number;
-  Yahtzee: number;
-  Chance: number;
-};
+export type PlayerScore = Record<Combination, number>;
+
+export type GameState = {
+    currentPlayer: string;
+    values: number[];
+    selected: boolean[];
+    stage: RoundStage;
+    scores: PlayerScore[];
+}
+
+export type Player = "Player1" | "Player2"
+
+export type ActionType =
+| { type: 'setCurrentPlayer'; payload: string }
+| { type: 'setValues'; payload: number[] }
+| { type: 'setSelected'; payload?: boolean[] }
+| { type: 'setStage'; payload: RoundStage }
+| { type: 'setScores'; payload: PlayerScore[] };

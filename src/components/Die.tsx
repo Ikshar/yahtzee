@@ -5,13 +5,14 @@ import { RoundStage } from "../types";
 type Props = { value: string; idx: number };
 
 export function Die({ value, idx }: Props) {
-  const { selected, setSelected, stage } = useContext(TableContext);
+  const [ state, dispatch ] = useContext(TableContext);
+  const { stage, selected } = state;
 
   const handleOnClick = useCallback(() => {
     if (stage === RoundStage.Decision) {
       const newSelected = [...selected];
       newSelected[idx] = !newSelected[idx];
-      setSelected(newSelected);
+      dispatch({type: "setSelected", payload: newSelected})
     }
   }, [selected]);
 

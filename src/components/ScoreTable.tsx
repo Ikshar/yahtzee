@@ -4,9 +4,7 @@ import { evaluateCombo } from "../logic/evaluateCombo";
 import { Combination } from "../types";
 
 export function ScoreTable() {
-  let arr = [];
-
-  const { scores, currentPlayer } = useContext(TableContext);
+  const [ state ] = useContext(TableContext);
 
   const handleClick = useCallback(
     (e: React.MouseEvent<HTMLTableDataCellElement, MouseEvent>) => {
@@ -15,25 +13,22 @@ export function ScoreTable() {
     []
   );
 
-  for (const combo of Object.values(Combination)) {
-    arr.push(
-      <tr key={Date.now() + combo}>
-        <th>{combo}</th>
-        <th className="score-spot" onClick={handleClick}></th>
-        <th className="score-spot" onClick={handleClick}></th>
-      </tr>
-    );
-  }
   return (
     <table id="score-table">
       <thead>
         <tr>
           <th>Combo</th>
-          <th>Player 1</th>
-          <th>Player 2</th>
+          <th>{state.currentPlayer}</th>
         </tr>
       </thead>
-      <tbody>{arr}</tbody>
+      <tbody>
+        {Object.values(Combination).map((combo) => (
+          <tr key={combo}>
+            <th>{combo}</th>
+            <th className="score-spot" onClick={handleClick}></th>
+          </tr>
+        ))}
+      </tbody>
     </table>
   );
 }

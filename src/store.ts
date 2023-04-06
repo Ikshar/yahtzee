@@ -1,32 +1,34 @@
-import { useContext } from "react"
-import { TableContext } from "./ctx/TableContext"
+import { times } from "lodash-es";
+import { ActionType, GameState } from "./types"
 
-export type Player = "Player1" | "Player2"
-
-type PlayerHand = {
-  playerID: Player
-  dice: number[]
-}
-
-export type GameState = {
-  currentPlayer: Player
-  isDecisionStage: boolean
-  values: number[]
-  
-}
-
-const { currentPlayer } = useContext(TableContext)
-
-function reducer(
-  state: GameState,
-  action: { type: "setNextPlayer" }
-): GameState {
+export function reducer(state: GameState, action: ActionType) {
   switch (action.type) {
-    case "setNextPlayer":
-      if (currentPlayer === "Player1") {
-        return { ...state, currentPlayer: "Player2" }
-      } else {
-        return { ...state, currentPlayer: "Player1" }
-      }
+    case "setValues":
+      return {
+        ...state,
+        values: action.payload,
+      };
+    case "setSelected":
+      return {
+        ...state,
+        selected: action.payload || times(5, () => false),
+      };
+    case "setStage":
+      return {
+        ...state,
+        stage: action.payload,
+      };
+    case "setCurrentPlayer":
+      return {
+        ...state,
+        currentPlayer: action.payload,
+      };
+    case "setScores":
+      return {
+        ...state,
+        scores: action.payload,
+      };
+    default:
+      return state;
   }
 }
