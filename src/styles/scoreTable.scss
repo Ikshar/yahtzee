@@ -1,0 +1,28 @@
+#score-table {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 1rem;
+}
+
+#score-table td,
+#score-table th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#score-table tr:nth-child(even) {
+  background-color: #3f56114f;
+}
+
+#score-table .score-spot:hover {
+  background-color: #ddd;
+}
+
+#score-table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #3f56114f;
+  color: white;
+}
