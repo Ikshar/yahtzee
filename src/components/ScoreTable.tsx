@@ -10,7 +10,6 @@ export function ScoreTable() {
 
   const handleClick = useCallback(
     (e: React.MouseEvent<HTMLTableDataCellElement, MouseEvent>) => {
-      evaluateCombo(scores, currentPlayer);
       e.currentTarget.textContent = "1";
     },
     []

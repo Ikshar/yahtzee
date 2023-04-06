@@ -82,5 +82,9 @@ export function ControlButton() {
     }
   };
 
-  return <div className="roll-button-base">{renderButton()}</div>;
+  return (
+    <div className="center-wrapper grid-item">
+      <div className="roll-button-base">{renderButton()}</div>
+    </div>
+  );
 }

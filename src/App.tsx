@@ -5,6 +5,7 @@ import { DiceContainer } from "./components/DiceContainer";
 import { ScoreTable } from "./components/ScoreTable";
 import { TableContextProvider } from "./ctx/TableContext";
 import { PlayerScore, RoundStage as RoundStage } from "./types";
+import { StatusBar } from "./components/StatusBar";
 
 export function App() {
   const [values, setValues] = useState<number[]>(() =>
@@ -14,7 +15,7 @@ export function App() {
     times(5, () => false)
   );
 
-  const [stage, setStage] = useState<RoundStage>(() => RoundStage.Decision);
+  const [stage, setStage] = useState<RoundStage>(() => RoundStage.Initial);
 
   const [currentPlayer, setCurrentPlayer] = useState("Player1");
   const [animation, setAnimation] = useState(false);
@@ -38,29 +39,12 @@ export function App() {
             scores,
           }}
         >
-          {/* <ScoreTable /> */}
-          <div className="status-bar">
-            <div className="center-wrapper grid-container">
-              <div className="status-bar grid-item">
-                <h3>{`${currentPlayer}'s turn!`}</h3>
-                <h4>
-                  {stage === RoundStage.Initial
-                    ? "Roll the dice!"
-                    : stage === RoundStage.Decision
-                    ? "Choose what to hold"
-                    : "Here's your result:"}
-                </h4>
-              </div>
-              <div className="center-wrapper grid-item">
-                <div className="dice-wrapper grid-item">
-                  <DiceContainer values={values} />
-                </div>
-              </div>
-              <div className="center-wrapper grid-item">
-                <ControlButton />
-              </div>
-            </div>
-          </div>
+
+          <ScoreTable />
+          <StatusBar />
+          <DiceContainer />
+          <ControlButton />
+
         </TableContextProvider>
       </div>
     </div>
