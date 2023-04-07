@@ -7,8 +7,8 @@ export const TableContext = createContext<TableContextType>([
   {
     currentPlayer: "",
     values: [],
-    selected: [],
-    stage: RoundStage.Initial,
+    selectedDice: [],
+    stage: RoundStage.FirstRoll,
     scores: [],
   },
   () => {},

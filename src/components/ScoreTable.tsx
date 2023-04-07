@@ -1,16 +1,19 @@
 import { useCallback, useContext } from "react";
 import { TableContext } from "../ctx/TableContext";
-import { evaluateCombo } from "../logic/evaluateCombo";
-import { Combination } from "../types";
+import { Combination, RoundStage } from "../types";
 
 export function ScoreTable() {
-  const [ state ] = useContext(TableContext);
+  const [state, dispatch] = useContext(TableContext);
+  const { stage } = state;
 
   const handleClick = useCallback(
-    (e: React.MouseEvent<HTMLTableDataCellElement, MouseEvent>) => {
-      e.currentTarget.textContent = "1";
+      (e: React.MouseEvent<HTMLTableDataCellElement, MouseEvent>, combo: Combination) => {
+      if (stage !== RoundStage.FirstRoll) {
+        e.currentTarget.textContent = combo;
+        dispatch({ type: "setSelectedRecord", payload: combo });
+      }
     },
-    []
+    [stage]
   );
 
   return (
@@ -25,7 +28,7 @@ export function ScoreTable() {
         {Object.values(Combination).map((combo) => (
           <tr key={combo}>
             <th>{combo}</th>
-            <th className="score-spot" onClick={handleClick}></th>
+            <th className="score-spot" onClick={(e) => handleClick(e, combo)}></th>
           </tr>
         ))}
       </tbody>

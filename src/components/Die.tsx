@@ -5,22 +5,24 @@ import { RoundStage } from "../types";
 type Props = { value: string; idx: number };
 
 export function Die({ value, idx }: Props) {
-  const [ state, dispatch ] = useContext(TableContext);
-  const { stage, selected } = state;
+  const [state, dispatch] = useContext(TableContext);
+  const { stage, selectedDice } = state;
 
   const handleOnClick = useCallback(() => {
-    if (stage === RoundStage.Decision) {
-      const newSelected = [...selected];
+    if (stage === RoundStage.SecondRoll || stage === RoundStage.ThirdRoll) {
+      const newSelected = [...selectedDice];
       newSelected[idx] = !newSelected[idx];
-      dispatch({type: "setSelected", payload: newSelected})
+      dispatch({ type: "setSelectedDice", payload: newSelected });
     }
-  }, [selected]);
+  }, [selectedDice]);
 
   return (
     <div
-      className={`die ${selected[idx] ? "selected" : "initial"}`}
+      className={`die ${
+        selectedDice && selectedDice[idx] ? "selected" : "initial"
+      }`}
       style={{
-        visibility: `${stage === RoundStage.Initial ? "hidden" : "visible"}`,
+        visibility: `${stage === RoundStage.FirstRoll ? "hidden" : "visible"}`,
       }}
       onClick={handleOnClick}
     >

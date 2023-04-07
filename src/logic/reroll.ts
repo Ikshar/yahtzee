@@ -5,6 +5,6 @@ export function rerollAll() {
   return values;
 }
 
-export function rerollUnheld(values: number[], selected: boolean[]) {
-    return values.map((value, idx) => selected[idx] ? value : random(1, 6))
+export function rerollUnheld(values: number[], selectedDice: boolean[]) {
+    return values.map((value, idx) => selectedDice[idx] ? value : random(1, 6))
 }

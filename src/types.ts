@@ -11,9 +11,10 @@ export enum GameStage {
 }
 
 export enum RoundStage {
-  Initial = "initial",
-  Decision = "decision",
-  Outcome = "outcome",
+  FirstRoll = "FirstRoll",
+  SecondRoll = "SecondRoll",
+  ThirdRoll = "ThirdRoll",
+  Scoring = "Scoring",
 }
 
 export enum Combination {
@@ -37,7 +38,8 @@ export type PlayerScore = Record<Combination, number>;
 export type GameState = {
     currentPlayer: string;
     values: number[];
-    selected: boolean[];
+    selectedRecord?: Combination;
+    selectedDice: boolean[];
     stage: RoundStage;
     scores: PlayerScore[];
 }
@@ -47,6 +49,7 @@ export type Player = "Player1" | "Player2"
 export type ActionType =
 | { type: 'setCurrentPlayer'; payload: string }
 | { type: 'setValues'; payload: number[] }
-| { type: 'setSelected'; payload?: boolean[] }
+| { type: 'setSelectedDice'; payload?: boolean[] }
+| { type: 'setSelectedRecord'; payload?: Combination }
 | { type: 'setStage'; payload: RoundStage }
 | { type: 'setScores'; payload: PlayerScore[] };
