@@ -9,6 +9,7 @@ export function ScoreTable() {
   const handleClick = useCallback(
       (e: React.MouseEvent<HTMLTableDataCellElement, MouseEvent>, combo: Combination) => {
       if (stage !== RoundStage.FirstRoll) {
+        // todo: set the text within React
         e.currentTarget.textContent = combo;
         dispatch({ type: "setSelectedRecord", payload: combo });
       }

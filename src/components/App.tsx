@@ -4,7 +4,7 @@ import { ControlButton } from "./ControlButton";
 import { DiceContainer } from "./DiceContainer";
 import { ScoreTable } from "./ScoreTable";
 import { TableContextProvider } from "../ctx/TableContext";
-import { GameState, RoundStage as RoundStage } from "../types";
+import { GameState, RoundStage } from "../types";
 import { StatusBar } from "./StatusBar";
 import { rerollAll } from "../logic/reroll";
 import { reducer } from "../store";

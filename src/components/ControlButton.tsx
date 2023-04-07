@@ -1,5 +1,4 @@
 import anime from "animejs/lib/anime.es.js";
-import { times } from "lodash-es";
 import { useCallback, useContext, useEffect, useRef } from "react";
 import { TableContext } from "../ctx/TableContext";
 import { rerollUnheld } from "../logic/reroll";
@@ -35,6 +34,34 @@ export function ControlButton() {
   const [state, dispatch] = useContext(TableContext);
   const { values, selectedDice, selectedRecord, stage, currentPlayer } = state;
 
+  const reroll = useCallback(() => {
+    if (stage !== RoundStage.Scoring) {
+      animation.current.restart();
+      const newValues = rerollUnheld(values, selectedDice);
+      dispatch({ type: "setSelectedDice" });
+      dispatch({
+        type: "setValues",
+        payload: newValues,
+      });
+    }
+  }, [stage, selectedDice]);
+
+  const handleClick = useCallback(() => {
+    // todo: do not confirm on first roll
+    if (selectedRecord) {
+      // todo: record record
+      dispatch({
+        type: "setCurrentPlayer",
+        payload: currentPlayer === "Player1" ? "Player2" : "Player1",
+      });
+      dispatch({ type: "setStage", payload: RoundStage.FirstRoll });
+      dispatch({ type: "setSelectedRecord" });
+    } else if (stage !== RoundStage.Scoring) {
+      reroll();
+      dispatch({ type: "setStage", payload: stageInfo[stage].nextStage });
+    }
+  }, [reroll, stage, selectedRecord, currentPlayer, values]);
+
   const animation = useRef(anime.timeline());
   useEffect(() => {
     animation.current.add({
@@ -43,33 +70,6 @@ export function ControlButton() {
       duration: 1000,
     });
   }, []);
-
-  const reroll = useCallback(() => {
-    if (stage !== RoundStage.Scoring) {
-      animation.current.restart();
-      dispatch({ type: "setSelectedDice" });
-      dispatch({
-        type: "setValues",
-        payload: rerollUnheld(values, selectedDice),
-      });
-    }
-  }, [stage, selectedDice]);
-
-  const handleClick = useCallback(() => {
-    // todo: do not confirm on first roll
-    if (stage === RoundStage.Scoring || selectedRecord) {
-      // todo: record record
-      dispatch({
-        type: "setCurrentPlayer",
-        payload: currentPlayer === "Player1" ? "Player2" : "Player1",
-      });
-      dispatch({ type: "setStage", payload: RoundStage.FirstRoll });
-      dispatch({ type: "setSelectedRecord" });
-    } else {
-      reroll();
-      dispatch({ type: "setStage", payload: stageInfo[stage].nextStage });
-    }
-  }, [reroll, stage, selectedRecord, currentPlayer]);
 
   return (
     <div className="center-wrapper">
