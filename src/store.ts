@@ -8,10 +8,15 @@ export function reducer(state: GameState, action: ActionType) {
         ...state,
         values: action.payload,
       };
-    case "setSelected":
+    case "setSelectedDice":
       return {
         ...state,
-        selected: action.payload || times(5, () => false),
+        selectedDice: action.payload || times(5, () => false),
+      };
+    case "setSelectedRecord":
+      return {
+        ...state,
+        selectedRecord: action.payload || undefined,
       };
     case "setStage":
       return {
@@ -29,6 +34,6 @@ export function reducer(state: GameState, action: ActionType) {
         scores: action.payload,
       };
     default:
-      return state;
+      throw Error;
   }
 }

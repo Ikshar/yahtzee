@@ -21,3 +21,5 @@ npm-debug.log*
 .parcel-cache
 # React Component Preview
 previewConfig.json
+
+.vscode
