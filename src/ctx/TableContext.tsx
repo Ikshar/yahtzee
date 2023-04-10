@@ -1,9 +1,9 @@
 import { createContext } from "react";
 import { ActionType, GameState, RoundStage } from "../types";
 
-type TableContextType = [GameState, React.Dispatch<ActionType>];
+type Store = [GameState, React.Dispatch<ActionType>];
 
-export const TableContext = createContext<TableContextType>([
+export const TableContext = createContext<Store>([
   {
     currentPlayer: "",
     values: [],
