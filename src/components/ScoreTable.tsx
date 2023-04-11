@@ -1,21 +1,30 @@
 import { useCallback, useContext } from "react";
 import { TableContext } from "../ctx/TableContext";
 import { Combination, RoundStage } from "../types";
+import { isEqual } from "lodash-es";
 
 export function ScoreTable() {
   const [state, dispatch] = useContext(TableContext);
-  const { evaluatedScore, currentPlayer, scores } = state;
+  const { evaluatedScore, currentPlayer, scores, selectedScore, stage } = state;
 
   const handleClick = useCallback(
     (combo: Combination) => {
-      if (state.stage !== RoundStage.FirstRoll) {
+      if (stage === RoundStage.FirstRoll) {
+        return;
+      }
+      const newScore = { [combo]: evaluatedScore[combo] };
+      const isTheSameScore = isEqual(selectedScore, newScore);
+
+      if (isTheSameScore) {
+        dispatch({ type: "setSelectedScore" });
+      } else {
         dispatch({
           type: "setSelectedScore",
           payload: { [combo]: evaluatedScore[combo] },
         });
       }
     },
-    [evaluatedScore, currentPlayer, scores]
+    [evaluatedScore, selectedScore, stage]
   );
 
   return (
@@ -31,7 +40,7 @@ export function ScoreTable() {
           <tr key={combo}>
             <th>{combo}</th>
             <th className="score-spot" onClick={() => handleClick(combo)}>
-              {scores[state.currentPlayer]?.[combo] || evaluatedScore[combo]}
+              {scores[currentPlayer]?.[combo] || evaluatedScore[combo]}
             </th>
           </tr>
         ))}
