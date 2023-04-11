@@ -24,32 +24,52 @@ export enum Combination {
   Fours = "Fours",
   Fives = "Fives",
   Sixes = "Sixes",
-  ThreeOfAKind = "Three Of A Kind",
-  FourOfAKind = "Four Of A Kind",
-  FullHouse = "Full House",
-  SmallStraight = "Small Straight", // 4 dice
-  LargeStraight = "Large Straight", // 5 dice
+  ThreeOfAKind = "ThreeOfAKind",
+  FourOfAKind = "FourOfAKind",
+  FullHouse = "FullHouse",
+  SmallStraight = "SmallStraight", // 4 dice
+  LargeStraight = "LargeStraight", // 5 dice
   Yahtzee = "Yahtzee", // All five dice the same
   Chance = "Chance", // Any combination
 }
 
-export type PlayerScore = Record<Combination, number>;
+export type Score = Partial<Record<Combination, number>>;
+
+export type PlayerScore = Partial<{
+  [key in Combination]: number;
+}>;
+
+export type Scores = Partial<{ [key in Player]: PlayerScore }>;
 
 export type GameState = {
-  currentPlayer: string;
+  currentPlayer: Player;
   values: number[];
-  selectedRecord?: Combination;
+  selectedScore?: Score;
   selectedDice: boolean[];
   stage: RoundStage;
-  scores: PlayerScore[];
+  scores: Scores;
+  evaluatedScore: PlayerScore;
 };
 
-export type Player = "Player1" | "Player2";
+export enum Player {
+  Player1 = "Player1",
+  Player2 = "Player2",
+}
 
 export type ActionType =
-  | { type: "setCurrentPlayer"; payload: string }
+  | { type: "setCurrentPlayer"; payload: Player }
   | { type: "setValues"; payload: number[] }
   | { type: "setSelectedDice"; payload?: boolean[] }
-  | { type: "setSelectedRecord"; payload?: Combination }
+  | {
+      type: "setSelectedScore";
+      payload?: Score;
+    }
   | { type: "setStage"; payload: RoundStage }
-  | { type: "setScores"; payload: PlayerScore[] };
+  | {
+      type: "setSavedPlayerScore";
+      payload: { player: Player; score: Score };
+    }
+  | {
+      type: "setEvaluatedScore";
+      payload: { score: Score };
+    };
