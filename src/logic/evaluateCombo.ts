@@ -1,4 +1,4 @@
-import { Combination } from "../types";
+import { Combination, Score } from "../types";
 
 type UpperSection = {
   Aces: number;
@@ -18,8 +18,6 @@ type LowerSection = {
   Yahtzee: number;
   Chance: number;
 };
-
-type Scores = UpperSection & LowerSection;
 
 const FixedPayouts = {
   [Combination.FullHouse]: 25,
@@ -53,7 +51,7 @@ const emptyScore = {
   Chance: 0,
 };
 
-export function evaluateCombo(dice: number[]): Scores {
+export function evaluateCombo(dice: number[]): Score {
   return {
     ...emptyScore,
     ...evaluateUpperSection(dice),
@@ -192,4 +190,3 @@ function validateLargeStraight(dice: number[]): boolean {
 
   return true;
 }
-

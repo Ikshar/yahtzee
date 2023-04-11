@@ -1,7 +1,7 @@
 import { times } from "lodash-es";
-import { ActionType, GameState } from "./types"
+import { ActionType, GameState } from "./types";
 
-export function reducer(state: GameState, action: ActionType) {
+export function reducer(state: GameState, action: ActionType): GameState {
   switch (action.type) {
     case "setValues":
       return {
@@ -13,11 +13,6 @@ export function reducer(state: GameState, action: ActionType) {
         ...state,
         selectedDice: action.payload || times(5, () => false),
       };
-    case "setSelectedRecord":
-      return {
-        ...state,
-        selectedRecord: action.payload || undefined,
-      };
     case "setStage":
       return {
         ...state,
@@ -28,10 +23,25 @@ export function reducer(state: GameState, action: ActionType) {
         ...state,
         currentPlayer: action.payload,
       };
-    case "setScores":
+    case "setSelectedScore":
       return {
         ...state,
-        scores: action.payload,
+        selectedScore: action.payload,
+      };
+    case "setSavedPlayerScore":
+      const currentScore = { ...state.scores[action.payload.player] };
+      const updatedScore = { ...currentScore, ...action.payload.score };
+      return {
+        ...state,
+        scores: {
+          ...state.scores,
+          [state.currentPlayer]: updatedScore,
+        },
+      };
+    case "setEvaluatedScore":
+      return {
+        ...state,
+        evaluatedScore: action.payload.score,
       };
     default:
       throw Error;

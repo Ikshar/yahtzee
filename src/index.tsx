@@ -8,7 +8,7 @@ import "./styles/controlButton.scss";
 import "./styles/statusBar.scss";
 import { App } from "./components/App";
 
-createRoot(document.getElementById("root")).render(
+createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <App />
   </React.StrictMode>
