@@ -89,6 +89,7 @@ function startNewRound(
   });
   dispatch({ type: "setStage", payload: RoundStage.FirstRoll });
   dispatch({ type: "setSelectedScore" });
+  dispatch({ type: "setEvaluatedScore" });
 }
 
 function updateValues(values: number[], dispatch: React.Dispatch<ActionType>) {

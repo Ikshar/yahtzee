@@ -41,7 +41,7 @@ export function reducer(state: GameState, action: ActionType): GameState {
     case "setEvaluatedScore":
       return {
         ...state,
-        evaluatedScore: action.payload.score,
+        evaluatedScore: action.payload?.score || {},
       };
     default:
       throw Error;
