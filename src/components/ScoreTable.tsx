@@ -27,6 +27,12 @@ export function ScoreTable() {
     [evaluatedScore, selectedScore, stage]
   );
 
+  function isSelected(combo: Combination) {
+    if (selectedScore?.hasOwnProperty(combo)) {
+      return "selected";
+    }
+  }
+
   return (
     <table id="score-table">
       <thead>
@@ -39,7 +45,10 @@ export function ScoreTable() {
         {Object.values(Combination).map((combo) => (
           <tr key={combo}>
             <th>{combo}</th>
-            <th className="score-spot" onClick={() => handleClick(combo)}>
+            <th
+              className={`score-spot ${isSelected(combo)}`}
+              onClick={() => handleClick(combo)}
+            >
               {scores[currentPlayer]?.[combo] || evaluatedScore[combo]}
             </th>
           </tr>
