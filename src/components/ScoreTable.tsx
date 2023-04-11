@@ -1,7 +1,7 @@
 import { useCallback, useContext } from "react";
 import { TableContext } from "../ctx/TableContext";
 import { Combination, RoundStage } from "../types";
-import { isEqual } from "lodash-es";
+import { isEqual, isNil } from "lodash-es";
 
 export function ScoreTable() {
   const [state, dispatch] = useContext(TableContext);
@@ -12,6 +12,12 @@ export function ScoreTable() {
       if (stage === RoundStage.FirstRoll) {
         return;
       }
+
+      const isScoreRecorded = !isNil(scores[currentPlayer]?.[combo]);
+      if (isScoreRecorded) {
+        return;
+      }
+
       const newScore = { [combo]: evaluatedScore[combo] };
       const isTheSameScore = isEqual(selectedScore, newScore);
 
