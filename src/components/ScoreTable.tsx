@@ -49,7 +49,7 @@ export function ScoreTable() {
               className={`score-spot ${isSelected(combo)}`}
               onClick={() => handleClick(combo)}
             >
-              {scores[currentPlayer]?.[combo] || evaluatedScore[combo]}
+              {scores[currentPlayer]?.[combo] ?? evaluatedScore[combo]}
             </th>
           </tr>
         ))}
