@@ -71,5 +71,5 @@ export type ActionType =
     }
   | {
       type: "setEvaluatedScore";
-      payload: { score: Score };
+      payload?: { score: Score };
     };
