@@ -5,7 +5,13 @@ import { isEqual, isNil } from "lodash-es";
 
 export function ScoreTable() {
   const [state, dispatch] = useContext(TableContext);
-  const { evaluatedScore, currentPlayer, scores, selectedScore, stage } = state;
+  const {
+    evaluatedScores,
+    currentPlayer,
+    recordedScores,
+    selectedScore,
+    stage,
+  } = state;
 
   const handleClick = useCallback(
     (combo: Combination) => {
@@ -13,12 +19,12 @@ export function ScoreTable() {
         return;
       }
 
-      const isScoreRecorded = !isNil(scores[currentPlayer]?.[combo]);
+      const isScoreRecorded = !isNil(recordedScores[currentPlayer]?.[combo]);
       if (isScoreRecorded) {
         return;
       }
 
-      const newScore = { [combo]: evaluatedScore[combo] };
+      const newScore = { [combo]: evaluatedScores[combo] };
       const isTheSameScore = isEqual(selectedScore, newScore);
 
       if (isTheSameScore) {
@@ -26,16 +32,22 @@ export function ScoreTable() {
       } else {
         dispatch({
           type: "setSelectedScore",
-          payload: { [combo]: evaluatedScore[combo] },
+          payload: { [combo]: evaluatedScores[combo] },
         });
       }
     },
-    [evaluatedScore, selectedScore, stage]
+    [evaluatedScores, selectedScore, stage]
   );
 
   function isSelected(combo: Combination) {
     if (selectedScore?.hasOwnProperty(combo)) {
       return "selected";
+    }
+  }
+
+  function isRecorded(combo: Combination) {
+    if(recordedScores[currentPlayer].hasOwnProperty(combo)){
+      return "recorded";
     }
   }
 
@@ -52,10 +64,10 @@ export function ScoreTable() {
           <tr key={combo}>
             <th>{combo}</th>
             <th
-              className={`score-spot ${isSelected(combo)}`}
+              className={`score-spot ${isRecorded(combo) || isSelected(combo)}`}
               onClick={() => handleClick(combo)}
             >
-              {scores[currentPlayer]?.[combo] ?? evaluatedScore[combo]}
+              {recordedScores[currentPlayer]?.[combo] ?? evaluatedScores[combo]}
             </th>
           </tr>
         ))}

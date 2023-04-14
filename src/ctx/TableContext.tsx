@@ -9,8 +9,8 @@ export const initialState: GameState = {
   selectedScore: undefined,
   stage: RoundStage.FirstRoll,
   currentPlayer: Player.Player1,
-  scores: { [Player.Player1]: {}, [Player.Player2]: {} },
-  evaluatedScore: {},
+  recordedScores: { [Player.Player1]: {}, [Player.Player2]: {} },
+  evaluatedScores: {},
 };
 
 export const TableContext = createContext<Store>([initialState, () => {}]);

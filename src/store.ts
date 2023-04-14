@@ -29,19 +29,19 @@ export function reducer(state: GameState, action: ActionType): GameState {
         selectedScore: action.payload,
       };
     case "setSavedPlayerScore":
-      const currentScore = { ...state.scores[action.payload.player] };
+      const currentScore = { ...state.recordedScores[action.payload.player] };
       const updatedScore = { ...currentScore, ...action.payload.score };
       return {
         ...state,
-        scores: {
-          ...state.scores,
+        recordedScores: {
+          ...state.recordedScores,
           [state.currentPlayer]: updatedScore,
         },
       };
     case "setEvaluatedScore":
       return {
         ...state,
-        evaluatedScore: action.payload?.score || {},
+        evaluatedScores: action.payload?.score || {},
       };
     default:
       throw Error;
