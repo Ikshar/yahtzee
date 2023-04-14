@@ -39,7 +39,7 @@ export type PlayerScore = Partial<{
   [key in Combination]: number;
 }>;
 
-export type Scores = Partial<{ [key in Player]: PlayerScore }>;
+export type Scores = { [key in Player]: PlayerScore };
 
 export type GameState = {
   currentPlayer: Player;
@@ -47,8 +47,8 @@ export type GameState = {
   selectedScore?: Score;
   selectedDice: boolean[];
   stage: RoundStage;
-  scores: Scores;
-  evaluatedScore: PlayerScore;
+  recordedScores: Scores;
+  evaluatedScores: PlayerScore;
 };
 
 export enum Player {
