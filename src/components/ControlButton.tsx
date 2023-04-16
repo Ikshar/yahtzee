@@ -39,16 +39,8 @@ export function ControlButton() {
     selectedScore: selectedScore,
     stage,
     currentPlayer,
+    shouldAnimateDice: animate,
   } = state;
-
-  const animation = useRef(anime.timeline());
-  useEffect(() => {
-    animation.current.add({
-      targets: `.initial`,
-      rotate: "2turn",
-      duration: 1000,
-    });
-  }, []);
 
   const handleClick = useCallback(() => {
     if (selectedScore) {
@@ -58,7 +50,7 @@ export function ControlButton() {
       const newValues = generateValues(values, selectedDice);
       updateValues(newValues, dispatch);
       setEvaluatedScore(newValues, dispatch);
-      animation.current.restart();
+      dispatch({ type: "setShouldAnimateDice", payload: true });
       startNextStage(stage, dispatch);
     }
   }, [stage, selectedDice, currentPlayer, values, selectedScore]);
@@ -89,11 +81,11 @@ function startNewRound(
   });
   dispatch({ type: "setStage", payload: RoundStage.FirstRoll });
   dispatch({ type: "setSelectedScore" });
+  dispatch({ type: "setSelectedDice" });
   dispatch({ type: "setEvaluatedScore" });
 }
 
 function updateValues(values: number[], dispatch: React.Dispatch<ActionType>) {
-  dispatch({ type: "setSelectedDice" });
   dispatch({
     type: "setValues",
     payload: values,

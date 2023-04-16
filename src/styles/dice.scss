@@ -16,3 +16,26 @@
 .initial {
   color: rgb(255, 229, 209);
 }
+
+@keyframes roll-dice {
+  0% {
+    -webkit-transform: scale(1) rotateZ(0);
+            transform: scale(1) rotateZ(0);
+  }
+  25% {
+    -webkit-transform: scale(1.6) rotateZ(180deg);
+            transform: scale(1.6) rotateZ(180deg);
+  }
+  50% {
+    -webkit-transform: scale(1.2) rotateZ(90deg);
+            transform: scale(1.2) rotateZ(90deg);
+  }
+  100% {
+    -webkit-transform: scale(1) rotateZ(360deg);
+            transform: scale(1) rotateZ(360deg);
+  }
+}
+
+.animate:not(.selected) {
+  animation: roll-dice 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}

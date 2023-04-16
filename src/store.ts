@@ -43,6 +43,11 @@ export function reducer(state: GameState, action: ActionType): GameState {
         ...state,
         evaluatedScores: action.payload?.score || {},
       };
+    case "setShouldAnimateDice":
+      return {
+        ...state,
+        shouldAnimateDice: action.payload,
+      };
     default:
       throw Error;
   }

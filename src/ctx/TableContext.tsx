@@ -11,6 +11,7 @@ export const initialState: GameState = {
   currentPlayer: Player.Player1,
   recordedScores: { [Player.Player1]: {}, [Player.Player2]: {} },
   evaluatedScores: {},
+  shouldAnimateDice: false,
 };
 
 export const TableContext = createContext<Store>([initialState, () => {}]);
