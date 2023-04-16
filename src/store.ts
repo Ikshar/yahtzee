@@ -28,20 +28,28 @@ export function reducer(state: GameState, action: ActionType): GameState {
         ...state,
         selectedScore: action.payload,
       };
-    case "setSavedPlayerScore":
-      const currentScore = { ...state.recordedScores[action.payload.player] };
-      const updatedScore = { ...currentScore, ...action.payload.score };
+    case "setRecordedScores":
+      const currentPlayerScores = {
+        ...state.recordedScores[action.payload.player],
+      };
+      const newScoreName = action.payload.score.name;
+      const newScoreValue = action.payload.score.value;
+
+      const newScore = {
+        [newScoreName]: { name: newScoreName, value: newScoreValue },
+      };
+      const updatedPlayerScore = { ...currentPlayerScores, ...newScore };
       return {
         ...state,
         recordedScores: {
           ...state.recordedScores,
-          [state.currentPlayer]: updatedScore,
+          [state.currentPlayer]: updatedPlayerScore,
         },
       };
-    case "setEvaluatedScore":
+    case "setEvaluatedScores":
       return {
         ...state,
-        evaluatedScores: action.payload?.score || {},
+        evaluatedScores: action.payload?.score,
       };
     case "setShouldAnimateDice":
       return {

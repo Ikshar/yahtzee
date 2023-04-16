@@ -33,11 +33,20 @@ export enum Combination {
   Chance = "Chance", // Any combination
 }
 
-export type Score = Partial<Record<Combination, number>>;
+export type Score = {
+  name: Combination;
+  value: number;
+};
 
 export type PlayerScores = Partial<{
-  [key in Combination]: number;
+  [key in Combination]: Score;
 }>;
+
+export type EvaluatedScores =
+  | {
+      [key in Combination]: number;
+    }
+  | undefined;
 
 export type Scores = { [key in Player]: PlayerScores };
 
@@ -48,7 +57,7 @@ export type GameState = {
   selectedDice: boolean[];
   stage: RoundStage;
   recordedScores: Scores;
-  evaluatedScores: PlayerScores;
+  evaluatedScores: EvaluatedScores;
   shouldAnimateDice: boolean;
 };
 
@@ -67,12 +76,12 @@ export type ActionType =
     }
   | { type: "setStage"; payload: RoundStage }
   | {
-      type: "setSavedPlayerScore";
+      type: "setRecordedScores";
       payload: { player: Player; score: Score };
     }
   | {
-      type: "setEvaluatedScore";
-      payload?: { score: Score };
+      type: "setEvaluatedScores";
+      payload?: { score: EvaluatedScores };
     }
   | {
       type: "setShouldAnimateDice";

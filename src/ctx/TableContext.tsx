@@ -10,7 +10,7 @@ export const initialState: GameState = {
   stage: RoundStage.FirstRoll,
   currentPlayer: Player.Player1,
   recordedScores: { [Player.Player1]: {}, [Player.Player2]: {} },
-  evaluatedScores: {},
+  evaluatedScores: undefined,
   shouldAnimateDice: false,
 };
 

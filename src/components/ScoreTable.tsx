@@ -3,23 +3,23 @@ import { TableContext } from "../ctx/TableContext";
 import {
   ActionType,
   Combination,
+  EvaluatedScores,
   GameState,
-  Player,
   PlayerScores,
   RoundStage,
   Score,
-  Scores,
 } from "../types";
 import { isEqual, isNil, sum } from "lodash-es";
 
 export function ScoreTable() {
   const [state, dispatch] = useContext(TableContext);
-  const { evaluatedScores, currentPlayer, recordedScores, selectedScore } = state;
+  const { evaluatedScores, currentPlayer, recordedScores, selectedScore } =
+    state;
 
-  const total = getTotal(selectedScore, recordedScores[currentPlayer]);
+  const total = getTotal(recordedScores[currentPlayer], selectedScore);
 
   function isRecorded(combo: Combination) {
-    if(recordedScores[currentPlayer].hasOwnProperty(combo)){
+    if (recordedScores[currentPlayer].hasOwnProperty(combo)) {
       return "recorded";
     }
   }
@@ -37,10 +37,13 @@ export function ScoreTable() {
           <tr key={combo}>
             <th>{combo}</th>
             <th
-              className={`score-spot ${isRecorded(combo) || isSelected(selectedScore, combo)}`}
+              className={`score-spot ${
+                isRecorded(combo) || isSelected(combo, selectedScore)
+              }`}
               onClick={() => handleClick(state, dispatch, combo)}
             >
-              {recordedScores[currentPlayer]?.[combo] ?? evaluatedScores[combo]}
+              {recordedScores[currentPlayer][combo]?.value ??
+                evaluatedScores?.[combo]}
             </th>
           </tr>
         ))}
@@ -58,13 +61,19 @@ function handleClick(
   dispatch: React.Dispatch<ActionType>,
   combo: Combination
 ) {
-  const { stage, evaluatedScores, currentPlayer, recordedScores, selectedScore } = state;
+  const {
+    stage,
+    evaluatedScores,
+    currentPlayer,
+    recordedScores,
+    selectedScore,
+  } = state;
 
   if (stage === RoundStage.FirstRoll) {
     return;
   }
 
-  const isScoreRecorded = !isNil(recordedScores[currentPlayer]?.[combo]);
+  const isScoreRecorded = !isNil(recordedScores[currentPlayer][combo]);
   if (isScoreRecorded) {
     return;
   }
@@ -74,34 +83,35 @@ function handleClick(
 
 function handleScoreRecord(
   selectedScore: Score | undefined,
-  evaluatedScore: Score,
+  evaluatedScores: EvaluatedScores,
   combo: Combination,
   dispatch: React.Dispatch<ActionType>
 ) {
-  const newScore = { [combo]: evaluatedScore[combo] };
+  const value = evaluatedScores![combo];
+  const newScore = { name: combo, value: value };
+
   const isTheSameScore = isEqual(selectedScore, newScore);
   if (isTheSameScore) {
     dispatch({ type: "setSelectedScore" });
   } else {
     dispatch({
       type: "setSelectedScore",
-      payload: { [combo]: evaluatedScore[combo] },
+      payload: newScore,
     });
   }
 }
 
-function isSelected(selectedScore: Score | undefined, combo: Combination) {
-  if (selectedScore?.hasOwnProperty(combo)) {
+function isSelected(combo: Combination, selectedScore?: Score) {
+  if (selectedScore?.name === combo) {
     return "selected";
   }
 }
 
-function getTotal(
-  selectedScore: Score | undefined,
-  currentPlayerScores: PlayerScores,
-) {
-  const recordedValues = Object.values(currentPlayerScores);
-  const selectedValue = selectedScore ? Object.values(selectedScore)[0] : 0;
+function getTotal(currentPlayerScores: PlayerScores, selectedScore?: Score) {
+  const recordedValues = Object.values(currentPlayerScores).map(
+    (score) => score.value
+  );
+  const selectedValue = selectedScore ? selectedScore.value : 0;
   const allValues = recordedValues.concat(selectedValue);
   return sum(allValues);
 }
