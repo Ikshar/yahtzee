@@ -6,7 +6,7 @@ type Props = { value: string; idx: number };
 
 export function Die({ value, idx }: Props) {
   const [state, dispatch] = useContext(TableContext);
-  const { stage, selectedDice, shouldAnimateDice: animate } = state;
+  const { stage, selectedDice, shouldAnimateDice } = state;
 
   const isSelected = selectedDice[idx];
 
@@ -23,7 +23,7 @@ export function Die({ value, idx }: Props) {
       className={`
       die
       ${isSelected ? "selected" : "initial"}
-      ${animate ? "animate" : ""}
+      ${shouldAnimateDice ? "animate" : ""}
     `}
       style={{
         visibility: `${stage === RoundStage.FirstRoll ? "hidden" : "visible"}`,
