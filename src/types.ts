@@ -35,11 +35,11 @@ export enum Combination {
 
 export type Score = Partial<Record<Combination, number>>;
 
-export type PlayerScore = Partial<{
+export type PlayerScores = Partial<{
   [key in Combination]: number;
 }>;
 
-export type Scores = { [key in Player]: PlayerScore };
+export type Scores = { [key in Player]: PlayerScores };
 
 export type GameState = {
   currentPlayer: Player;
@@ -48,7 +48,7 @@ export type GameState = {
   selectedDice: boolean[];
   stage: RoundStage;
   recordedScores: Scores;
-  evaluatedScores: PlayerScore;
+  evaluatedScores: PlayerScores;
   shouldAnimateDice: boolean;
 };
 

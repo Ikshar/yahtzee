@@ -5,6 +5,7 @@ import {
   Combination,
   GameState,
   Player,
+  PlayerScores,
   RoundStage,
   Score,
   Scores,
@@ -15,7 +16,7 @@ export function ScoreTable() {
   const [state, dispatch] = useContext(TableContext);
   const { evaluatedScores, currentPlayer, recordedScores, selectedScore } = state;
 
-  const total = getTotal(selectedScore, recordedScores, currentPlayer);
+  const total = getTotal(selectedScore, recordedScores[currentPlayer]);
 
   function isRecorded(combo: Combination) {
     if(recordedScores[currentPlayer].hasOwnProperty(combo)){
@@ -97,10 +98,9 @@ function isSelected(selectedScore: Score | undefined, combo: Combination) {
 
 function getTotal(
   selectedScore: Score | undefined,
-  scores: Scores,
-  currentPlayer: Player
+  currentPlayerScores: PlayerScores,
 ) {
-  const recordedValues = Object.values(scores[currentPlayer]);
+  const recordedValues = Object.values(currentPlayerScores);
   const selectedValue = selectedScore ? Object.values(selectedScore)[0] : 0;
   const allValues = recordedValues.concat(selectedValue);
   return sum(allValues);
