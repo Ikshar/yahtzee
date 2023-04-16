@@ -49,6 +49,7 @@ export type GameState = {
   stage: RoundStage;
   recordedScores: Scores;
   evaluatedScores: PlayerScore;
+  shouldAnimateDice: boolean;
 };
 
 export enum Player {
@@ -72,4 +73,8 @@ export type ActionType =
   | {
       type: "setEvaluatedScore";
       payload?: { score: Score };
+    }
+  | {
+      type: "setShouldAnimateDice";
+      payload: boolean;
     };

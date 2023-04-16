@@ -6,25 +6,30 @@ type Props = { value: string; idx: number };
 
 export function Die({ value, idx }: Props) {
   const [state, dispatch] = useContext(TableContext);
-  const { stage, selectedDice } = state;
+  const { stage, selectedDice, shouldAnimateDice: animate } = state;
 
-  const handleOnClick = useCallback(() => {
+  const isSelected = selectedDice[idx];
+
+  const handleClick = useCallback(() => {
     if (stage === RoundStage.SecondRoll || stage === RoundStage.ThirdRoll) {
       const newSelected = [...selectedDice];
       newSelected[idx] = !newSelected[idx];
       dispatch({ type: "setSelectedDice", payload: newSelected });
     }
-  }, [selectedDice]);
+  }, [selectedDice, stage]);
 
   return (
     <div
-      className={`die ${
-        selectedDice && selectedDice[idx] ? "selected" : "initial"
-      }`}
+      className={`
+      die
+      ${isSelected ? "selected" : "initial"}
+      ${animate ? "animate" : ""}
+    `}
       style={{
         visibility: `${stage === RoundStage.FirstRoll ? "hidden" : "visible"}`,
       }}
-      onClick={handleOnClick}
+      onAnimationEnd={() => dispatch({ type: "setShouldAnimateDice", payload: false })}
+      onClick={handleClick}
     >
       {value}
     </div>
