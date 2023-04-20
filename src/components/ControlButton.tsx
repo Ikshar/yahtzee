@@ -16,10 +16,14 @@ export function ControlButton() {
   } = state;
 
   const handleClick = useCallback(() => {
+    const areAllSelected = selectedDice.every(isSelected => isSelected);
+
     if (selectedScore) {
       dispatch({ type: ActionType.StartNewRound });
     } else if (stage !== RoundStage.Scoring) {
-      dispatch({ type: ActionType.StartNextStage });
+      if (!areAllSelected) {
+        dispatch({ type: ActionType.StartNextStage });
+      }
     }
   }, [stage, selectedDice, currentPlayer, values, selectedScore]);
 

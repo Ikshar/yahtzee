@@ -31,7 +31,7 @@ export function reducer(state: GameState, action: Action): GameState {
         stage: RoundStage.FirstRoll,
         currentPlayer: nextPlayer,
         selectedScore: undefined,
-        selectedDice: [],
+        selectedDice: initialState.selectedDice,
         evaluatedScores: undefined,
         recordedScores: {
           ...state.recordedScores,
@@ -43,9 +43,6 @@ export function reducer(state: GameState, action: Action): GameState {
       const evaluatedScores = evaluateScores(newValues);
       const nextStage = stageInfo[state.stage].nextStage;
       let selectedDice = [ ...state.selectedDice ];
-      if (nextStage === RoundStage.Scoring) {
-        selectedDice = initialState.selectedDice;
-      }
       return {
         ...state,
         values: newValues,
