@@ -1,62 +1,39 @@
-import { Player, Score, RoundStage, EvaluatedScores } from "./game";
+import { Score } from "./game";
 
-type SetCurrentPlayerAction = {
-  type: ActionType.SetCurrentPlayer;
-  payload: Player;
-};
+export enum ActionType {
+  SetSelectedDice = "setSelectedDice",
+  SetSelectedScore = "setSelectedScore",
+  SetShouldAnimateDice = "setShouldAnimateDice",
+  StartNewRound = "startNewRound",
+  StartNextStage = "startNextStage",
+}
 
-type SetValuesAction = {
-  type: ActionType.SetValues;
-  payload: number[];
-};
-
-type SetSelectedDiceAction = {
+type SetSelectedDice = {
   type: ActionType.SetSelectedDice;
   payload?: boolean[];
 };
 
-type SetSelectedScoreAction = {
+type SetSelectedScore = {
   type: ActionType.SetSelectedScore;
   payload?: Score;
 };
 
-type SetStageAction = {
-  type: ActionType.SetStage;
-  payload: RoundStage;
-};
-
-type SetSavedPlayerScoreAction = {
-  type: ActionType.SetSavedPlayerScore;
-  payload: { score: Score };
-};
-
-type SetEvaluatedScoreAction = {
-  type: ActionType.SetEvaluatedScore;
-  payload?: { score: EvaluatedScores };
-};
-
-type SetShouldAnimateDiceAction = {
+type SetShouldAnimateDice = {
   type: ActionType.SetShouldAnimateDice;
   payload: boolean;
 };
 
-export enum ActionType {
-  SetCurrentPlayer = "setCurrentPlayer",
-  SetValues = "setValues",
-  SetSelectedDice = "setSelectedDice",
-  SetSelectedScore = "setSelectedScore",
-  SetStage = "setStage",
-  SetSavedPlayerScore = "setSavedPlayerScore",
-  SetEvaluatedScore = "setEvaluatedScore",
-  SetShouldAnimateDice = "setShouldAnimateDice",
-}
+type StartNewRound = {
+  type: ActionType.StartNewRound;
+};
+
+type StartNextStage = {
+  type: ActionType.StartNextStage;
+};
 
 export type Action =
-  | SetCurrentPlayerAction
-  | SetValuesAction
-  | SetSelectedDiceAction
-  | SetSelectedScoreAction
-  | SetStageAction
-  | SetSavedPlayerScoreAction
-  | SetEvaluatedScoreAction
-  | SetShouldAnimateDiceAction;
+  | SetSelectedDice
+  | SetSelectedScore
+  | SetShouldAnimateDice
+  | StartNewRound
+  | StartNextStage;

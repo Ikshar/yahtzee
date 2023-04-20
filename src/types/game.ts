@@ -57,7 +57,7 @@ export type GameState = {
   selectedDice: boolean[];
   stage: RoundStage;
   recordedScores: Scores;
-  evaluatedScores: EvaluatedScores;
+  evaluatedScores?: EvaluatedScores;
   shouldAnimateDice: boolean;
 };
 

@@ -1,8 +1,8 @@
-import { evaluateCombo } from "../logic/evaluateCombo";
+import { evaluateScores } from "../logic/evaluateCombo";
 
 describe("evaluateCombo", () => {
   test("ThreeOfAKind", () => {
-    expect(evaluateCombo([5, 5, 5, 2, 1])).toMatchObject({
+    expect(evaluateScores([5, 5, 5, 2, 1])).toMatchObject({
       Aces: 1,
       Chance: 18,
       Fives: 15,
@@ -12,7 +12,7 @@ describe("evaluateCombo", () => {
   });
 
   test("FourOfAKind", () => {
-    expect(evaluateCombo([2, 2, 2, 2, 1])).toMatchObject({
+    expect(evaluateScores([2, 2, 2, 2, 1])).toMatchObject({
       Aces: 1,
       Chance: 9,
       FourOfAKind: 9,
@@ -22,7 +22,7 @@ describe("evaluateCombo", () => {
   });
 
   test("FullHouse", () => {
-    expect(evaluateCombo([1, 1, 2, 2, 2])).toMatchObject({
+    expect(evaluateScores([1, 1, 2, 2, 2])).toMatchObject({
       Aces: 2,
       Chance: 8,
       FullHouse: 25,
@@ -32,7 +32,7 @@ describe("evaluateCombo", () => {
   });
 
   test("SmallStraight", () => {
-    expect(evaluateCombo([4, 2, 3, 1, 1])).toMatchObject({
+    expect(evaluateScores([4, 2, 3, 1, 1])).toMatchObject({
       Aces: 2,
       Chance: 11,
       Fours: 4,
@@ -43,7 +43,7 @@ describe("evaluateCombo", () => {
   });
 
   test("LargeStraight", () => {
-    expect(evaluateCombo([5, 2, 3, 1, 4])).toMatchObject({
+    expect(evaluateScores([5, 2, 3, 1, 4])).toMatchObject({
       Aces: 1,
       Chance: 15,
       Fives: 5,
@@ -56,7 +56,7 @@ describe("evaluateCombo", () => {
   });
 
   test("Yahtzee", () => {
-    expect(evaluateCombo([6, 6, 6, 6, 6])).toMatchObject({
+    expect(evaluateScores([6, 6, 6, 6, 6])).toMatchObject({
       Chance: 30,
       FourOfAKind: 30,
       Sixes: 30,

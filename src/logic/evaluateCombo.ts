@@ -51,7 +51,7 @@ const emptyScore = {
   Chance: 0,
 };
 
-export function evaluateCombo(dice: number[]): EvaluatedScores {
+export function evaluateScores(dice: number[]): EvaluatedScores {
   return {
     ...emptyScore,
     ...evaluateUpperSection(dice),
