@@ -36,7 +36,7 @@ export function ControlButton() {
   const {
     values,
     selectedDice,
-    selectedScore: selectedScore,
+    selectedScore,
     stage,
     currentPlayer,
     shouldAnimateDice: animate,
@@ -44,12 +44,12 @@ export function ControlButton() {
 
   const handleClick = useCallback(() => {
     if (selectedScore) {
-      setSavedPlayerScore(currentPlayer, selectedScore, dispatch);
+      setRecordedScores(currentPlayer, selectedScore, dispatch);
       startNewRound(currentPlayer, dispatch);
     } else if (stage !== RoundStage.Scoring) {
       const newValues = generateValues(values, selectedDice);
       updateValues(newValues, dispatch);
-      setEvaluatedScore(newValues, dispatch);
+      setEvaluatedScores(newValues, dispatch);
       dispatch({ type: "setShouldAnimateDice", payload: true });
       startNextStage(stage, dispatch);
     }
@@ -82,7 +82,7 @@ function startNewRound(
   dispatch({ type: "setStage", payload: RoundStage.FirstRoll });
   dispatch({ type: "setSelectedScore" });
   dispatch({ type: "setSelectedDice" });
-  dispatch({ type: "setEvaluatedScore" });
+  dispatch({ type: "setEvaluatedScores" });
 }
 
 function updateValues(values: number[], dispatch: React.Dispatch<ActionType>) {
@@ -92,24 +92,24 @@ function updateValues(values: number[], dispatch: React.Dispatch<ActionType>) {
   });
 }
 
-function setSavedPlayerScore(
+function setRecordedScores(
   currentPlayer: Player,
   selectedScore: Score,
   dispatch: React.Dispatch<ActionType>
 ) {
   dispatch({
-    type: "setSavedPlayerScore",
+    type: "setRecordedScores",
     payload: { player: currentPlayer, score: selectedScore },
   });
 }
 
-function setEvaluatedScore(
+function setEvaluatedScores(
   values: number[],
   dispatch: React.Dispatch<ActionType>
 ) {
   const evaluated = evaluateCombo(values);
   dispatch({
-    type: "setEvaluatedScore",
+    type: "setEvaluatedScores",
     payload: { score: evaluated },
   });
 }
