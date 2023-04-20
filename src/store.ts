@@ -42,14 +42,12 @@ export function reducer(state: GameState, action: Action): GameState {
       const newValues = generateNewValues(state.values, state.selectedDice);
       const evaluatedScores = evaluateScores(newValues);
       const nextStage = stageInfo[state.stage].nextStage;
-      let selectedDice = [ ...state.selectedDice ];
       return {
         ...state,
         values: newValues,
         evaluatedScores: evaluatedScores,
         shouldAnimateDice: true,
         stage: nextStage,
-        selectedDice: selectedDice,
       };
     default:
       throw Error;
