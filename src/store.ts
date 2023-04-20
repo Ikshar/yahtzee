@@ -4,14 +4,14 @@ import { GameState, RoundStage, Player } from "./types/game";
 import { Action, ActionType } from "./types/reducer";
 import { stageInfo } from "./types/stageInfo";
 import { evaluateScores } from "./logic/evaluateCombo";
+import { initialState } from "./ctx/TableContext";
 
 export function reducer(state: GameState, action: Action): GameState {
   switch (action.type) {
     case ActionType.SetSelectedDice:
-      const unselectedDice = times(5, () => false);
       return {
         ...state,
-        selectedDice: action.payload || unselectedDice,
+        selectedDice: action.payload || initialState.selectedDice,
       };
     case ActionType.SetSelectedScore:
       return {
@@ -42,12 +42,17 @@ export function reducer(state: GameState, action: Action): GameState {
       const newValues = generateNewValues(state.values, state.selectedDice);
       const evaluatedScores = evaluateScores(newValues);
       const nextStage = stageInfo[state.stage].nextStage;
+      let selectedDice = [ ...state.selectedDice ];
+      if (nextStage === RoundStage.Scoring) {
+        selectedDice = initialState.selectedDice;
+      }
       return {
         ...state,
         values: newValues,
         evaluatedScores: evaluatedScores,
         shouldAnimateDice: true,
         stage: nextStage,
+        selectedDice: selectedDice,
       };
     default:
       throw Error;
