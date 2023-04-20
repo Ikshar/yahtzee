@@ -60,7 +60,7 @@ function getNextPlayer(currentPlayer: Player) {
 
 function getUpdatedScores(state: GameState) {
   const currentScores = { ...state.recordedScores[state.currentPlayer] };
-  const selectedScore = { ...state.selectedScore };
-  const updatedScores = { ...currentScores, ...selectedScore };
+  const newScore = { [state.selectedScore!.name]: { ...state.selectedScore } };
+  const updatedScores = { ...currentScores, ...newScore };
   return updatedScores;
 }
