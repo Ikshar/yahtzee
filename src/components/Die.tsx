@@ -19,17 +19,23 @@ export function Die({ value, idx }: Props) {
     }
   }, [selectedDice, stage]);
 
+  // on scoring all dice are displayed as initial
+  const stateName =
+    stage === RoundStage.Scoring || !isSelected ? "initial" : "selected";
+  // but only truly deselected are animated
+  const shouldAnimate =
+    (stage !== RoundStage.Scoring && shouldAnimateDice) ||
+    (stage === RoundStage.Scoring && !isSelected && shouldAnimateDice);
+
   return (
     <div
-      className={`
-      die
-      ${isSelected ? "selected" : "initial"}
-      ${shouldAnimateDice ? "animate" : ""}
-    `}
+      className={`die ${stateName} ${shouldAnimate && "animate"}`}
       style={{
         visibility: `${stage === RoundStage.FirstRoll ? "hidden" : "visible"}`,
       }}
-      onAnimationEnd={() => dispatch({ type: ActionType.SetShouldAnimateDice, payload: false })}
+      onAnimationEnd={() =>
+        dispatch({ type: ActionType.SetShouldAnimateDice, payload: false })
+      }
       onClick={handleClick}
     >
       {value}
