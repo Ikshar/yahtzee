@@ -65,25 +65,3 @@ export enum Player {
   Player1 = "Player1",
   Player2 = "Player2",
 }
-
-export type ActionType =
-  | { type: "setCurrentPlayer"; payload: Player }
-  | { type: "setValues"; payload: number[] }
-  | { type: "setSelectedDice"; payload?: boolean[] }
-  | {
-      type: "setSelectedScore";
-      payload?: Score;
-    }
-  | { type: "setStage"; payload: RoundStage }
-  | {
-      type: "setRecordedScores";
-      payload: { player: Player; score: Score };
-    }
-  | {
-      type: "setEvaluatedScores";
-      payload?: { score: EvaluatedScores };
-    }
-  | {
-      type: "setShouldAnimateDice";
-      payload: boolean;
-    };

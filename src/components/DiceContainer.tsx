@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { TableContext } from "../ctx/TableContext";
-import { DiceValues } from "../types";
 import { Die } from "./Die";
+import { DiceValues } from "../types/game";
 
 export function DiceContainer() {
   const [state] = useContext(TableContext);

@@ -1,9 +1,9 @@
-import anime from "animejs/lib/anime.es.js";
-import { useCallback, useContext, useEffect, useRef } from "react";
+import { useCallback, useContext } from "react";
 import { TableContext } from "../ctx/TableContext";
 import { generateValues } from "../logic/generateValues";
-import { ActionType, Player, RoundStage, Score } from "../types";
+import { Action, ActionType } from "../types/reducer";
 import { evaluateCombo } from "../logic/evaluateCombo";
+import { RoundStage, Player, Score } from "../types/game";
 
 type StageInfo = {
   [key in RoundStage]: {
@@ -44,13 +44,13 @@ export function ControlButton() {
 
   const handleClick = useCallback(() => {
     if (selectedScore) {
-      setRecordedScores(currentPlayer, selectedScore, dispatch);
+      setSavedPlayerScore(selectedScore, dispatch);
       startNewRound(currentPlayer, dispatch);
     } else if (stage !== RoundStage.Scoring) {
       const newValues = generateValues(values, selectedDice);
       updateValues(newValues, dispatch);
-      setEvaluatedScores(newValues, dispatch);
-      dispatch({ type: "setShouldAnimateDice", payload: true });
+      setEvaluatedScore(newValues, dispatch);
+      dispatch({ type: ActionType.SetShouldAnimateDice, payload: true });
       startNextStage(stage, dispatch);
     }
   }, [stage, selectedDice, currentPlayer, values, selectedScore]);
@@ -64,52 +64,45 @@ export function ControlButton() {
   );
 }
 
-function startNextStage(
-  stage: RoundStage,
-  dispatch: React.Dispatch<ActionType>
-) {
-  dispatch({ type: "setStage", payload: stageInfo[stage].nextStage });
+function startNextStage(stage: RoundStage, dispatch: React.Dispatch<Action>) {
+  dispatch({ type: ActionType.SetStage, payload: stageInfo[stage].nextStage });
 }
 
 function startNewRound(
   currentPlayer: string,
-  dispatch: React.Dispatch<ActionType>
+  dispatch: React.Dispatch<Action>
 ) {
   dispatch({
-    type: "setCurrentPlayer",
+    type: ActionType.SetCurrentPlayer,
     payload: currentPlayer === Player.Player1 ? Player.Player2 : Player.Player1,
   });
-  dispatch({ type: "setStage", payload: RoundStage.FirstRoll });
-  dispatch({ type: "setSelectedScore" });
-  dispatch({ type: "setSelectedDice" });
-  dispatch({ type: "setEvaluatedScores" });
+  dispatch({ type: ActionType.SetStage, payload: RoundStage.FirstRoll });
+  dispatch({ type: ActionType.SetSelectedScore });
+  dispatch({ type: ActionType.SetSelectedDice });
+  dispatch({ type: ActionType.SetEvaluatedScore });
 }
 
-function updateValues(values: number[], dispatch: React.Dispatch<ActionType>) {
+function updateValues(values: number[], dispatch: React.Dispatch<Action>) {
   dispatch({
-    type: "setValues",
+    type: ActionType.SetValues,
     payload: values,
   });
 }
 
-function setRecordedScores(
-  currentPlayer: Player,
+function setSavedPlayerScore(
   selectedScore: Score,
-  dispatch: React.Dispatch<ActionType>
+  dispatch: React.Dispatch<Action>
 ) {
   dispatch({
-    type: "setRecordedScores",
-    payload: { player: currentPlayer, score: selectedScore },
+    type: ActionType.SetSavedPlayerScore,
+    payload: { score: selectedScore },
   });
 }
 
-function setEvaluatedScores(
-  values: number[],
-  dispatch: React.Dispatch<ActionType>
-) {
+function setEvaluatedScore(values: number[], dispatch: React.Dispatch<Action>) {
   const evaluated = evaluateCombo(values);
   dispatch({
-    type: "setEvaluatedScores",
+    type: ActionType.SetEvaluatedScore,
     payload: { score: evaluated },
   });
 }

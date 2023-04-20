@@ -1,57 +1,50 @@
 import { times } from "lodash-es";
-import { ActionType, GameState } from "./types";
+import { Action, ActionType } from "./types/reducer";
+import { GameState, PlayerScores } from "./types/game";
 
-export function reducer(state: GameState, action: ActionType): GameState {
+export function reducer(state: GameState, action: Action): GameState {
   switch (action.type) {
-    case "setValues":
+    case ActionType.SetValues:
       return {
         ...state,
         values: action.payload,
       };
-    case "setSelectedDice":
+    case ActionType.SetSelectedDice:
       return {
         ...state,
         selectedDice: action.payload || times(5, () => false),
       };
-    case "setStage":
+    case ActionType.SetStage:
       return {
         ...state,
         stage: action.payload,
       };
-    case "setCurrentPlayer":
+    case ActionType.SetCurrentPlayer:
       return {
         ...state,
         currentPlayer: action.payload,
       };
-    case "setSelectedScore":
+    case ActionType.SetSelectedScore:
       return {
         ...state,
         selectedScore: action.payload,
       };
-    case "setRecordedScores":
-      const currentPlayerScores = {
-        ...state.recordedScores[action.payload.player],
-      };
-      const newScoreName = action.payload.score.name;
-      const newScoreValue = action.payload.score.value;
-
-      const newScore = {
-        [newScoreName]: { name: newScoreName, value: newScoreValue },
-      };
-      const updatedPlayerScore = { ...currentPlayerScores, ...newScore };
+    case ActionType.SetSavedPlayerScore:
+      const currentScore = { ...state.recordedScores[state.currentPlayer] };
+      const updatedScore = { ...currentScore, ...action.payload.score };
       return {
         ...state,
         recordedScores: {
           ...state.recordedScores,
-          [state.currentPlayer]: updatedPlayerScore,
+          [state.currentPlayer]: updatedScore,
         },
       };
-    case "setEvaluatedScores":
+    case ActionType.SetEvaluatedScore:
       return {
         ...state,
         evaluatedScores: action.payload?.score,
       };
-    case "setShouldAnimateDice":
+    case ActionType.SetShouldAnimateDice:
       return {
         ...state,
         shouldAnimateDice: action.payload,

@@ -1,4 +1,4 @@
-import { Combination, EvaluatedScores, Score } from "../types";
+import { Combination, EvaluatedScores } from "../types/game";
 
 type UpperSection = {
   Aces: number;
