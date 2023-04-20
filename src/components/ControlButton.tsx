@@ -1,35 +1,8 @@
-import anime from "animejs/lib/anime.es.js";
-import { useCallback, useContext, useEffect, useRef } from "react";
+import { useCallback, useContext } from "react";
 import { TableContext } from "../ctx/TableContext";
-import { generateValues } from "../logic/generateValues";
-import { ActionType, Player, RoundStage, Score } from "../types";
-import { evaluateCombo } from "../logic/evaluateCombo";
-
-type StageInfo = {
-  [key in RoundStage]: {
-    buttonLabel?: string;
-    nextStage: RoundStage;
-  };
-};
-
-const stageInfo: StageInfo = {
-  [RoundStage.FirstRoll]: {
-    buttonLabel: "ROLL",
-    nextStage: RoundStage.SecondRoll,
-  },
-  [RoundStage.SecondRoll]: {
-    buttonLabel: "REROLL",
-    nextStage: RoundStage.ThirdRoll,
-  },
-  [RoundStage.ThirdRoll]: {
-    buttonLabel: "REREROLL",
-    nextStage: RoundStage.Scoring,
-  },
-  [RoundStage.Scoring]: {
-    buttonLabel: "CONFIRM",
-    nextStage: RoundStage.FirstRoll,
-  },
-};
+import { ActionType } from "../types/reducer";
+import { RoundStage } from "../types/game";
+import { stageInfo } from "../types/stageInfo";
 
 export function ControlButton() {
   const [state, dispatch] = useContext(TableContext);
@@ -44,14 +17,9 @@ export function ControlButton() {
 
   const handleClick = useCallback(() => {
     if (selectedScore) {
-      setRecordedScores(currentPlayer, selectedScore, dispatch);
-      startNewRound(currentPlayer, dispatch);
+      dispatch({ type: ActionType.StartNewRound });
     } else if (stage !== RoundStage.Scoring) {
-      const newValues = generateValues(values, selectedDice);
-      updateValues(newValues, dispatch);
-      setEvaluatedScores(newValues, dispatch);
-      dispatch({ type: "setShouldAnimateDice", payload: true });
-      startNextStage(stage, dispatch);
+      dispatch({ type: ActionType.StartNextStage });
     }
   }, [stage, selectedDice, currentPlayer, values, selectedScore]);
 
@@ -62,54 +30,4 @@ export function ControlButton() {
       </div>
     </div>
   );
-}
-
-function startNextStage(
-  stage: RoundStage,
-  dispatch: React.Dispatch<ActionType>
-) {
-  dispatch({ type: "setStage", payload: stageInfo[stage].nextStage });
-}
-
-function startNewRound(
-  currentPlayer: string,
-  dispatch: React.Dispatch<ActionType>
-) {
-  dispatch({
-    type: "setCurrentPlayer",
-    payload: currentPlayer === Player.Player1 ? Player.Player2 : Player.Player1,
-  });
-  dispatch({ type: "setStage", payload: RoundStage.FirstRoll });
-  dispatch({ type: "setSelectedScore" });
-  dispatch({ type: "setSelectedDice" });
-  dispatch({ type: "setEvaluatedScores" });
-}
-
-function updateValues(values: number[], dispatch: React.Dispatch<ActionType>) {
-  dispatch({
-    type: "setValues",
-    payload: values,
-  });
-}
-
-function setRecordedScores(
-  currentPlayer: Player,
-  selectedScore: Score,
-  dispatch: React.Dispatch<ActionType>
-) {
-  dispatch({
-    type: "setRecordedScores",
-    payload: { player: currentPlayer, score: selectedScore },
-  });
-}
-
-function setEvaluatedScores(
-  values: number[],
-  dispatch: React.Dispatch<ActionType>
-) {
-  const evaluated = evaluateCombo(values);
-  dispatch({
-    type: "setEvaluatedScores",
-    payload: { score: evaluated },
-  });
 }

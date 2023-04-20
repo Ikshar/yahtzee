@@ -1,7 +1,8 @@
 import { createContext } from "react";
-import { ActionType, GameState, Player, RoundStage } from "../types";
+import { Action } from "../types/reducer";
+import { GameState, RoundStage, Player } from "../types/game";
 
-type Store = [GameState, React.Dispatch<ActionType>];
+type Store = [GameState, React.Dispatch<Action>];
 
 export const initialState: GameState = {
   values: [1, 2, 3, 4, 5],

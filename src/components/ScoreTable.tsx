@@ -1,15 +1,8 @@
+import { isNil, isEqual, sum } from "lodash-es";
 import { useContext } from "react";
 import { TableContext } from "../ctx/TableContext";
-import {
-  ActionType,
-  Combination,
-  EvaluatedScores,
-  GameState,
-  PlayerScores,
-  RoundStage,
-  Score,
-} from "../types";
-import { isEqual, isNil, sum } from "lodash-es";
+import { Combination, GameState, RoundStage, Score, EvaluatedScores, PlayerScores } from "../types/game";
+import { Action, ActionType } from "../types/reducer";
 
 export function ScoreTable() {
   const [state, dispatch] = useContext(TableContext);
@@ -58,7 +51,7 @@ export function ScoreTable() {
 
 function handleClick(
   state: GameState,
-  dispatch: React.Dispatch<ActionType>,
+  dispatch: React.Dispatch<Action>,
   combo: Combination
 ) {
   const {
@@ -85,17 +78,17 @@ function handleScoreRecord(
   selectedScore: Score | undefined,
   evaluatedScores: EvaluatedScores,
   combo: Combination,
-  dispatch: React.Dispatch<ActionType>
+  dispatch: React.Dispatch<Action>
 ) {
   const value = evaluatedScores![combo];
   const newScore = { name: combo, value: value };
 
   const isTheSameScore = isEqual(selectedScore, newScore);
   if (isTheSameScore) {
-    dispatch({ type: "setSelectedScore" });
+    dispatch({ type: ActionType.SetSelectedScore });
   } else {
     dispatch({
-      type: "setSelectedScore",
+      type: ActionType.SetSelectedScore,
       payload: newScore,
     });
   }

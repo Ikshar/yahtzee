@@ -1,62 +1,66 @@
 import { times } from "lodash-es";
-import { ActionType, GameState } from "./types";
+import { generateNewValues } from "./logic/generateValues";
+import { GameState, RoundStage, Player } from "./types/game";
+import { Action, ActionType } from "./types/reducer";
+import { stageInfo } from "./types/stageInfo";
+import { evaluateScores } from "./logic/evaluateCombo";
 
-export function reducer(state: GameState, action: ActionType): GameState {
+export function reducer(state: GameState, action: Action): GameState {
   switch (action.type) {
-    case "setValues":
+    case ActionType.SetSelectedDice:
+      const unselectedDice = times(5, () => false);
       return {
         ...state,
-        values: action.payload,
+        selectedDice: action.payload || unselectedDice,
       };
-    case "setSelectedDice":
-      return {
-        ...state,
-        selectedDice: action.payload || times(5, () => false),
-      };
-    case "setStage":
-      return {
-        ...state,
-        stage: action.payload,
-      };
-    case "setCurrentPlayer":
-      return {
-        ...state,
-        currentPlayer: action.payload,
-      };
-    case "setSelectedScore":
+    case ActionType.SetSelectedScore:
       return {
         ...state,
         selectedScore: action.payload,
       };
-    case "setRecordedScores":
-      const currentPlayerScores = {
-        ...state.recordedScores[action.payload.player],
-      };
-      const newScoreName = action.payload.score.name;
-      const newScoreValue = action.payload.score.value;
-
-      const newScore = {
-        [newScoreName]: { name: newScoreName, value: newScoreValue },
-      };
-      const updatedPlayerScore = { ...currentPlayerScores, ...newScore };
-      return {
-        ...state,
-        recordedScores: {
-          ...state.recordedScores,
-          [state.currentPlayer]: updatedPlayerScore,
-        },
-      };
-    case "setEvaluatedScores":
-      return {
-        ...state,
-        evaluatedScores: action.payload?.score,
-      };
-    case "setShouldAnimateDice":
+    case ActionType.SetShouldAnimateDice:
       return {
         ...state,
         shouldAnimateDice: action.payload,
       };
+    case ActionType.StartNewRound:
+      const updatedScores = getUpdatedScores(state);
+      const nextPlayer = getNextPlayer(state.currentPlayer);
+      return {
+        ...state,
+        stage: RoundStage.FirstRoll,
+        currentPlayer: nextPlayer,
+        selectedScore: undefined,
+        selectedDice: [],
+        evaluatedScores: undefined,
+        recordedScores: {
+          ...state.recordedScores,
+          [state.currentPlayer]: updatedScores,
+        },
+      };
+    case ActionType.StartNextStage:
+      const newValues = generateNewValues(state.values, state.selectedDice);
+      const evaluatedScores = evaluateScores(newValues);
+      const nextStage = stageInfo[state.stage].nextStage;
+      return {
+        ...state,
+        values: newValues,
+        evaluatedScores: evaluatedScores,
+        shouldAnimateDice: true,
+        stage: nextStage,
+      };
     default:
       throw Error;
   }
+}
+
+function getNextPlayer(currentPlayer: Player) {
+  return currentPlayer === Player.Player1 ? Player.Player2 : Player.Player1;
+}
+
+function getUpdatedScores(state: GameState) {
+  const currentScores = { ...state.recordedScores[state.currentPlayer] };
+  const newScore = { [state.selectedScore!.name]: { ...state.selectedScore } };
+  const updatedScores = { ...currentScores, ...newScore };
+  return updatedScores;
 }

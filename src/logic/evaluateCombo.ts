@@ -1,4 +1,4 @@
-import { Combination, EvaluatedScores, Score } from "../types";
+import { Combination, EvaluatedScores } from "../types/game";
 
 type UpperSection = {
   Aces: number;
@@ -51,7 +51,7 @@ const emptyScore = {
   Chance: 0,
 };
 
-export function evaluateCombo(dice: number[]): EvaluatedScores {
+export function evaluateScores(dice: number[]): EvaluatedScores {
   return {
     ...emptyScore,
     ...evaluateUpperSection(dice),

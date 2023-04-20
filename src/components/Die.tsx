@@ -1,6 +1,7 @@
 import { useCallback, useContext } from "react";
 import { TableContext } from "../ctx/TableContext";
-import { RoundStage } from "../types";
+import { ActionType } from "../types/reducer";
+import { RoundStage } from "../types/game";
 
 type Props = { value: string; idx: number };
 
@@ -14,7 +15,7 @@ export function Die({ value, idx }: Props) {
     if (stage === RoundStage.SecondRoll || stage === RoundStage.ThirdRoll) {
       const newSelected = [...selectedDice];
       newSelected[idx] = !newSelected[idx];
-      dispatch({ type: "setSelectedDice", payload: newSelected });
+      dispatch({ type: ActionType.SetSelectedDice, payload: newSelected });
     }
   }, [selectedDice, stage]);
 
@@ -28,7 +29,7 @@ export function Die({ value, idx }: Props) {
       style={{
         visibility: `${stage === RoundStage.FirstRoll ? "hidden" : "visible"}`,
       }}
-      onAnimationEnd={() => dispatch({ type: "setShouldAnimateDice", payload: false })}
+      onAnimationEnd={() => dispatch({ type: ActionType.SetShouldAnimateDice, payload: false })}
       onClick={handleClick}
     >
       {value}
