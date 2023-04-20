@@ -1,7 +1,15 @@
 import { isNil, isEqual, sum } from "lodash-es";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { TableContext } from "../ctx/TableContext";
-import { Combination, GameState, RoundStage, Score, EvaluatedScores, PlayerScores } from "../types/game";
+import {
+  Combination,
+  GameState,
+  RoundStage,
+  Score,
+  EvaluatedScores,
+  PlayerScores,
+  Player,
+} from "../types/game";
 import { Action, ActionType } from "../types/reducer";
 
 export function ScoreTable() {
@@ -16,13 +24,28 @@ export function ScoreTable() {
       return "recorded";
     }
   }
+  const [shouldAnimate, setShouldAnimate] = useState(false);
+  const [isFirstRender, setIsFirstRender] = useState(true);
+
+  useEffect(() => {
+    if(!isFirstRender){
+      setShouldAnimate(true);
+      return;
+    }
+    setIsFirstRender(false)
+  }, [currentPlayer]);
 
   return (
     <table id="score-table">
       <thead>
         <tr>
           <th>Combo</th>
-          <th>{currentPlayer}</th>
+          <th
+            className={`playerLabel ${!isFirstRender && shouldAnimate && "animate"}`}
+            onAnimationEnd={() => setShouldAnimate(false)}
+          >
+            {currentPlayer}
+          </th>
         </tr>
       </thead>
       <tbody>
