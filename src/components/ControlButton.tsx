@@ -1,11 +1,12 @@
 import { useCallback, useContext } from "react";
 import { TableContext } from "../ctx/TableContext";
 import { ActionType } from "../types/reducer";
-import { RoundStage } from "../types/game";
+import { GameStage, RoundStage } from "../types/game";
 import { stageInfo } from "../types/stageInfo";
 
 export function ControlButton() {
   const [state, dispatch] = useContext(TableContext);
+
   const {
     values,
     selectedDice,
@@ -13,9 +14,15 @@ export function ControlButton() {
     roundStage,
     currentPlayer,
     currentRound,
+    gameStage,
   } = state;
 
   const handleClick = useCallback(() => {
+    if (gameStage === GameStage.GameOutcome) {
+      dispatch({ type: ActionType.StartNewGame });
+      return;
+    }
+
     if (selectedScore && currentRound === 26) {
       dispatch({ type: ActionType.InitiateOutcome });
       return;
@@ -31,16 +38,27 @@ export function ControlButton() {
       dispatch({ type: ActionType.StartNextStage });
       return;
     }
-  }, [roundStage, selectedDice, currentPlayer, values, selectedScore]);
+  }, [
+    roundStage,
+    selectedDice,
+    currentPlayer,
+    values,
+    selectedScore,
+    gameStage,
+  ]);
 
-  const isInactive = stage === RoundStage.Scoring && !selectedScore;
+  const buttonLabel =
+    gameStage === GameStage.GameOutcome
+      ? "NEW GAME"
+      : selectedScore
+      ? "CONFIRM"
+      : stageInfo[roundStage].buttonLabel;
+
+  const isInactive = roundStage === RoundStage.Scoring && !selectedScore;
 
   return (
     <div className="center-wrapper">
-      <div
-        className={`control-button ${isInactive ? "inactive" : ""}`}
-        onClick={handleClick}
-      >
+      <div className="control-button" onClick={handleClick}>
         {selectedScore ? "CONFIRM" : stageInfo[roundStage].buttonLabel}
       </div>
     </div>

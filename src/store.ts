@@ -1,11 +1,5 @@
-import { times } from "lodash-es";
 import { generateNewValues } from "./logic/generateValues";
-import {
-  GameState,
-  RoundStage,
-  Player,
-  GameStage,
-} from "./types/game";
+import { GameState, RoundStage, Player, GameStage } from "./types/game";
 import { Action, ActionType } from "./types/reducer";
 import { stageInfo } from "./types/stageInfo";
 import { evaluateScores } from "./logic/evaluateCombo";
@@ -79,6 +73,8 @@ export function reducer(state: GameState, action: Action): GameState {
           [state.currentPlayer]: getUpdatedScores(state),
         },
       };
+    case ActionType.StartNewGame:
+      return initialState;
     default:
       throw Error;
   }

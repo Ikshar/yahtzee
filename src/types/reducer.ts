@@ -9,6 +9,7 @@ export enum ActionType {
   StartNewRound = "startNewRound",
   StartNextStage = "startNextStage",
   InitiateOutcome = "initiateOutcome",
+  StartNewGame = "startNewGame"
 }
 
 type SetSelectedDice = {
@@ -47,6 +48,10 @@ type InitiateOutcome = {
   type: ActionType.InitiateOutcome;
 };
 
+type StartNewGame = {
+  type: ActionType.StartNewGame;
+};
+
 export type Action =
   | SetSelectedDice
   | SetSelectedScore
@@ -55,4 +60,5 @@ export type Action =
   | SetTotal
   | StartNewRound
   | StartNextStage
-  | InitiateOutcome;
+  | InitiateOutcome
+  | StartNewGame;
