@@ -7,17 +7,18 @@ import {
   RoundStage,
   Score,
   EvaluatedScores,
-  PlayerScores,
-  Player,
 } from "../types/game";
 import { Action, ActionType } from "../types/reducer";
 
 export function ScoreTable() {
   const [state, dispatch] = useContext(TableContext);
-  const { evaluatedScores, currentPlayer, recordedScores, selectedScore } =
-    state;
-
-  const total = getTotal(recordedScores[currentPlayer], selectedScore);
+  const {
+    evaluatedScores,
+    currentPlayer,
+    recordedScores,
+    selectedScore,
+    selectedTotal,
+  } = state;
 
   function isRecorded(combo: Combination) {
     if (recordedScores[currentPlayer].hasOwnProperty(combo)) {
@@ -28,10 +29,18 @@ export function ScoreTable() {
   const [isFirstRender, setIsFirstRender] = useState(true);
 
   useEffect(() => {
+    const recordedTotal = recordedScores[currentPlayer].total;
+    const selectedValue = selectedScore ? selectedScore.value : 0;
+    const updatedTotal = recordedTotal + selectedValue;
+    dispatch({ type: ActionType.SetSelectedTotal, payload: updatedTotal });
+  }, [selectedScore]);
+
+  useEffect(() => {
     if (!isFirstRender) {
       setShouldAnimate(true);
       return;
     }
+    setIsFirstRender(false);
     setIsFirstRender(false);
   }, [currentPlayer]);
 
@@ -68,7 +77,7 @@ export function ScoreTable() {
         ))}
         <tr>
           <td>TOTAL</td>
-          <td className="total-label">{total}</td>
+          <td className="total-label">{selectedTotal}</td>
         </tr>
       </tbody>
     </table>
@@ -124,13 +133,4 @@ function isSelected(combo: Combination, selectedScore?: Score) {
   if (selectedScore?.name === combo) {
     return "selected";
   }
-}
-
-function getTotal(currentPlayerScores: PlayerScores, selectedScore?: Score) {
-  const recordedValues = Object.values(currentPlayerScores).map(
-    (score) => score.value
-  );
-  const selectedValue = selectedScore ? selectedScore.value : 0;
-  const allValues = recordedValues.concat(selectedValue);
-  return sum(allValues);
 }

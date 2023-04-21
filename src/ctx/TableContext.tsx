@@ -8,9 +8,13 @@ export const initialState: GameState = {
   values: [1, 2, 3, 4, 5],
   selectedDice: [false, false, false, false, false],
   selectedScore: undefined,
+  selectedTotal: 0,
   stage: RoundStage.FirstRoll,
   currentPlayer: Player.Player1,
-  recordedScores: { [Player.Player1]: {}, [Player.Player2]: {} },
+  recordedScores: {
+    [Player.Player1]: { total: 0 },
+    [Player.Player2]: { total: 0 },
+  },
   evaluatedScores: undefined,
   shouldAnimateDice: false,
 };

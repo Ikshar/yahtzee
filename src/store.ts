@@ -18,10 +18,25 @@ export function reducer(state: GameState, action: Action): GameState {
         ...state,
         selectedScore: action.payload,
       };
+    case ActionType.SetSelectedTotal:
+      return {
+        ...state,
+        selectedTotal: action.payload,
+      };
     case ActionType.SetShouldAnimateDice:
       return {
         ...state,
         shouldAnimateDice: action.payload,
+      };
+    case ActionType.SetTotal:
+      return {
+        ...state,
+        recordedScores: {
+          ...state.recordedScores,
+          [state.currentPlayer]: {
+            total: state.selectedTotal,
+          },
+        },
       };
     case ActionType.StartNewRound:
       const updatedScores = getUpdatedScores(state);
@@ -61,6 +76,6 @@ function getNextPlayer(currentPlayer: Player) {
 function getUpdatedScores(state: GameState) {
   const currentScores = { ...state.recordedScores[state.currentPlayer] };
   const newScore = { [state.selectedScore!.name]: { ...state.selectedScore } };
-  const updatedScores = { ...currentScores, ...newScore };
+  const updatedScores = { ...currentScores, ...newScore, total: state.selectedTotal };
   return updatedScores;
 }
