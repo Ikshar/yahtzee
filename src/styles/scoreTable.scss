@@ -34,3 +34,21 @@
 #score-table .recorded {
   color: green;
 }
+
+@keyframes changeColor {
+  0% {
+    color: white;
+  }
+
+  50% {
+    color: red;
+  }
+
+  100% {
+    color: white;
+  }
+}
+
+.playerLabel.animate {
+  animation: changeColor 1s;
+}
