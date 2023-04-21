@@ -4,14 +4,15 @@ import { RoundStage } from "../types/game";
 
 export function StatusBar() {
   const [state] = useContext(TableContext);
-  const stage = state.stage;
+  const roundStage = state.roundStage;
 
+  // todo: switch
   const bulbs = [
-    stage === RoundStage.SecondRoll ||
-      stage === RoundStage.ThirdRoll ||
-      stage === RoundStage.Scoring,
-    stage === RoundStage.ThirdRoll || stage === RoundStage.Scoring,
-    stage === RoundStage.Scoring,
+    roundStage === RoundStage.SecondRoll ||
+      roundStage === RoundStage.ThirdRoll ||
+      roundStage === RoundStage.Scoring,
+    roundStage === RoundStage.ThirdRoll || roundStage === RoundStage.Scoring,
+    roundStage === RoundStage.Scoring,
   ];
 
   return (

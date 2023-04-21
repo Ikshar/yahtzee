@@ -6,19 +6,32 @@ import { stageInfo } from "../types/stageInfo";
 
 export function ControlButton() {
   const [state, dispatch] = useContext(TableContext);
-  const { values, selectedDice, selectedScore, stage, currentPlayer } = state;
+  const {
+    values,
+    selectedDice,
+    selectedScore,
+    roundStage,
+    currentPlayer,
+    currentRound,
+  } = state;
 
   const handleClick = useCallback(() => {
-    const areAllSelected = selectedDice.every((isSelected) => isSelected);
+    if (selectedScore && currentRound === 26) {
+      dispatch({ type: ActionType.InitiateOutcome });
+      return;
+    }
 
     if (selectedScore) {
       dispatch({ type: ActionType.StartNewRound });
-    } else if (stage !== RoundStage.Scoring) {
-      if (!areAllSelected) {
-        dispatch({ type: ActionType.StartNextStage });
-      }
+      return;
     }
-  }, [stage, selectedDice, currentPlayer, values, selectedScore]);
+
+    const areAllSelected = selectedDice.every((isSelected) => isSelected);
+    if (roundStage !== RoundStage.Scoring && !areAllSelected) {
+      dispatch({ type: ActionType.StartNextStage });
+      return;
+    }
+  }, [roundStage, selectedDice, currentPlayer, values, selectedScore]);
 
   const isInactive = stage === RoundStage.Scoring && !selectedScore;
 
@@ -28,7 +41,7 @@ export function ControlButton() {
         className={`control-button ${isInactive ? "inactive" : ""}`}
         onClick={handleClick}
       >
-        {selectedScore ? "CONFIRM" : stageInfo[stage].buttonLabel}
+        {selectedScore ? "CONFIRM" : stageInfo[roundStage].buttonLabel}
       </div>
     </div>
   );

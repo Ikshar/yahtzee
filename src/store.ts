@@ -1,6 +1,11 @@
 import { times } from "lodash-es";
 import { generateNewValues } from "./logic/generateValues";
-import { GameState, RoundStage, Player } from "./types/game";
+import {
+  GameState,
+  RoundStage,
+  Player,
+  GameStage,
+} from "./types/game";
 import { Action, ActionType } from "./types/reducer";
 import { stageInfo } from "./types/stageInfo";
 import { evaluateScores } from "./logic/evaluateCombo";
@@ -39,30 +44,40 @@ export function reducer(state: GameState, action: Action): GameState {
         },
       };
     case ActionType.StartNewRound:
-      const updatedScores = getUpdatedScores(state);
       const nextPlayer = getNextPlayer(state.currentPlayer);
+      const nextRound = state.currentRound + 1;
       return {
         ...state,
-        stage: RoundStage.FirstRoll,
+        roundStage: RoundStage.FirstRoll,
         currentPlayer: nextPlayer,
-        selectedScore: undefined,
+        selectedScore: initialState.selectedScore,
         selectedDice: initialState.selectedDice,
-        evaluatedScores: undefined,
+        evaluatedScores: initialState.evaluatedScores,
         recordedScores: {
           ...state.recordedScores,
-          [state.currentPlayer]: updatedScores,
+          [state.currentPlayer]: getUpdatedScores(state),
         },
+        currentRound: nextRound,
       };
     case ActionType.StartNextStage:
       const newValues = generateNewValues(state.values, state.selectedDice);
       const evaluatedScores = evaluateScores(newValues);
-      const nextStage = stageInfo[state.stage].nextStage;
+      const nextStage = stageInfo[state.roundStage].nextStage;
       return {
         ...state,
         values: newValues,
         evaluatedScores: evaluatedScores,
         shouldAnimateDice: true,
-        stage: nextStage,
+        roundStage: nextStage,
+      };
+    case ActionType.InitiateOutcome:
+      return {
+        ...state,
+        gameStage: GameStage.GameOutcome,
+        recordedScores: {
+          ...state.recordedScores,
+          [state.currentPlayer]: getUpdatedScores(state),
+        },
       };
     default:
       throw Error;
@@ -76,6 +91,10 @@ function getNextPlayer(currentPlayer: Player) {
 function getUpdatedScores(state: GameState) {
   const currentScores = { ...state.recordedScores[state.currentPlayer] };
   const newScore = { [state.selectedScore!.name]: { ...state.selectedScore } };
-  const updatedScores = { ...currentScores, ...newScore, total: state.selectedTotal };
+  const updatedScores = {
+    ...currentScores,
+    ...newScore,
+    total: state.selectedTotal,
+  };
   return updatedScores;
 }

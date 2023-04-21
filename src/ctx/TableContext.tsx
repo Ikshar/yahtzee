@@ -1,6 +1,6 @@
 import { createContext } from "react";
 import { Action } from "../types/reducer";
-import { GameState, RoundStage, Player } from "../types/game";
+import { GameState, RoundStage, Player, GameStage } from "../types/game";
 
 type Store = [GameState, React.Dispatch<Action>];
 
@@ -9,7 +9,8 @@ export const initialState: GameState = {
   selectedDice: [false, false, false, false, false],
   selectedScore: undefined,
   selectedTotal: 0,
-  stage: RoundStage.FirstRoll,
+  gameStage: GameStage.ActiveRound,
+  roundStage: RoundStage.FirstRoll,
   currentPlayer: Player.Player1,
   recordedScores: {
     [Player.Player1]: { total: 0 },
@@ -17,6 +18,7 @@ export const initialState: GameState = {
   },
   evaluatedScores: undefined,
   shouldAnimateDice: false,
+  currentRound: 1,
 };
 
 export const TableContext = createContext<Store>([initialState, () => {}]);

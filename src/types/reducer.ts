@@ -8,6 +8,7 @@ export enum ActionType {
   SetTotal = "setTotal",
   StartNewRound = "startNewRound",
   StartNextStage = "startNextStage",
+  InitiateOutcome = "initiateOutcome",
 }
 
 type SetSelectedDice = {
@@ -42,6 +43,10 @@ type SetTotal = {
   payload: number;
 };
 
+type InitiateOutcome = {
+  type: ActionType.InitiateOutcome;
+};
+
 export type Action =
   | SetSelectedDice
   | SetSelectedScore
@@ -49,4 +54,5 @@ export type Action =
   | SetShouldAnimateDice
   | SetTotal
   | StartNewRound
-  | StartNextStage;
+  | StartNextStage
+  | InitiateOutcome;

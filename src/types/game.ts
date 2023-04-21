@@ -46,7 +46,7 @@ export interface PlayerScores extends PlayerScoresBase {
   total: number;
 }
 
-type RecordedScores = { [key in Player]: PlayerScores };
+export type RecordedScores = { [key in Player]: PlayerScores };
 
 export type EvaluatedScores =
   | {
@@ -60,10 +60,12 @@ export type GameState = {
   selectedScore?: Score;
   selectedTotal: number;
   selectedDice: boolean[];
-  stage: RoundStage;
+  roundStage: RoundStage;
+  gameStage: GameStage;
   recordedScores: RecordedScores;
   evaluatedScores?: EvaluatedScores;
   shouldAnimateDice: boolean;
+  currentRound: number;
 };
 
 export enum Player {

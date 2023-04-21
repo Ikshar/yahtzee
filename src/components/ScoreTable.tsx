@@ -90,14 +90,14 @@ function handleClick(
   combo: Combination
 ) {
   const {
-    stage,
+    roundStage,
     evaluatedScores,
     currentPlayer,
     recordedScores,
     selectedScore,
   } = state;
 
-  if (stage === RoundStage.FirstRoll) {
+  if (roundStage === RoundStage.FirstRoll) {
     return;
   }
 
