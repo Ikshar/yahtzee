@@ -6,17 +6,10 @@ import { stageInfo } from "../types/stageInfo";
 
 export function ControlButton() {
   const [state, dispatch] = useContext(TableContext);
-  const {
-    values,
-    selectedDice,
-    selectedScore,
-    stage,
-    currentPlayer,
-    shouldAnimateDice: animate,
-  } = state;
+  const { values, selectedDice, selectedScore, stage, currentPlayer } = state;
 
   const handleClick = useCallback(() => {
-    const areAllSelected = selectedDice.every(isSelected => isSelected);
+    const areAllSelected = selectedDice.every((isSelected) => isSelected);
 
     if (selectedScore) {
       dispatch({ type: ActionType.StartNewRound });
@@ -27,9 +20,14 @@ export function ControlButton() {
     }
   }, [stage, selectedDice, currentPlayer, values, selectedScore]);
 
+  const isInactive = stage === RoundStage.Scoring && !selectedScore;
+
   return (
     <div className="center-wrapper">
-      <div className="control-button" onClick={handleClick}>
+      <div
+        className={`control-button ${isInactive ? "inactive" : ""}`}
+        onClick={handleClick}
+      >
         {selectedScore ? "CONFIRM" : stageInfo[stage].buttonLabel}
       </div>
     </div>
