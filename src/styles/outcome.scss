@@ -1,19 +1,17 @@
+$outcome-animation-duration: 3s;
 
-.outcome-screen{
+.outcome-screen {
   transform: translateY(20vh);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  color: green
-}
+  color: green;
 
-.outcome-screen .happy-message{
-  color: white;
-  animation-name: happy-message;
-  animation-duration: 3s;
-  animation-iteration-count: infinite;
-  animation-timing-function: ease-in-out;
+  .happy-message {
+    color: white;
+    animation: happy-message $outcome-animation-duration ease-in-out infinite;
+  }
 }
 
 @keyframes happy-message {

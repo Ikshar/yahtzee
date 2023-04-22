@@ -1,29 +1,35 @@
+$border-color: 2px dashed green;
+
 #score-table {
   border-collapse: collapse;
   width: 100%;
   font-size: 1rem;
   margin-bottom: 10px;
-}
 
-#score-table tr,
-#score-table td {
-  border: 2px dashed green;
-  padding: 8px;
-}
+  tr,
+  td {
+    border: $border-color;
+    padding: 8px;
+  }
 
-#score-table td {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  text-align: left;
-  color: green;
-}
+  td {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    color: green;
+  }
 
-#score-table .selected {
-  color: white;
-}
+  .selected {
+    color: white;
+  }
 
-#score-table .recorded {
-  color: white;
+  .recorded {
+    color: white;
+  }
+
+  td.total-label {
+    text-align: right;
+  }
 }
 
 @keyframes changeColor {
@@ -42,8 +48,4 @@
 
 .playerLabel.animate {
   animation: changeColor 1s;
-}
-
-#score-table td.total-label {
-  text-align: right;
 }
