@@ -38,9 +38,15 @@ export type Score = {
   value: number;
 };
 
-export type PlayerScores = Partial<{
-  [key in Combination]: Score;
-}>;
+type PlayerScoresBase = {
+  [key in Combination]?: Score;
+};
+
+export interface PlayerScores extends PlayerScoresBase {
+  total: number;
+}
+
+export type RecordedScores = { [key in Player]: PlayerScores };
 
 export type EvaluatedScores =
   | {
@@ -48,17 +54,18 @@ export type EvaluatedScores =
     }
   | undefined;
 
-export type Scores = { [key in Player]: PlayerScores };
-
 export type GameState = {
   currentPlayer: Player;
   values: number[];
   selectedScore?: Score;
+  selectedTotal: number;
   selectedDice: boolean[];
-  stage: RoundStage;
-  recordedScores: Scores;
+  roundStage: RoundStage;
+  gameStage: GameStage;
+  recordedScores: RecordedScores;
   evaluatedScores?: EvaluatedScores;
   shouldAnimateDice: boolean;
+  currentRound: number;
 };
 
 export enum Player {
