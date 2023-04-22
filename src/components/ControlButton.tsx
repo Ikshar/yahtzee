@@ -58,8 +58,11 @@ export function ControlButton() {
 
   return (
     <div className="center-wrapper">
-      <div className="control-button" onClick={handleClick}>
-        {selectedScore ? "CONFIRM" : stageInfo[roundStage].buttonLabel}
+      <div
+        className={`control-button ${isInactive ? "inactive" : ""}`}
+        onClick={handleClick}
+      >
+        {buttonLabel}
       </div>
     </div>
   );
