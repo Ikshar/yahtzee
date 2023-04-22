@@ -20,15 +20,15 @@ export enum RoundStage {
 export enum Combination {
   Aces = "Aces",
   Twos = "Twos",
-  Three = "Threes",
+  Threes = "Threes",
   Fours = "Fours",
   Fives = "Fives",
   Sixes = "Sixes",
-  ThreeOfAKind = "ThreeOfAKind",
-  FourOfAKind = "FourOfAKind",
-  FullHouse = "FullHouse",
-  SmallStraight = "SmallStraight", // 4 dice
-  LargeStraight = "LargeStraight", // 5 dice
+  ThreeOfAKind = "Three of a Kind",
+  FourOfAKind = "Four of a Kind",
+  FullHouse = "Full House",
+  SmallStraight = "Small Straight", // 4 dice
+  LargeStraight = "Large Straight", // 5 dice
   Yahtzee = "Yahtzee", // All five dice the same
   Chance = "Chance", // Any combination
 }
@@ -69,6 +69,6 @@ export type GameState = {
 };
 
 export enum Player {
-  Player1 = "Player1",
-  Player2 = "Player2",
+  Player1 = "Player 1",
+  Player2 = "Player 2",
 }

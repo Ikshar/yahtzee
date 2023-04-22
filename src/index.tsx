@@ -6,6 +6,7 @@ import "./styles/scoreTable.scss";
 import "./styles/dice.scss";
 import "./styles/controlButton.scss";
 import "./styles/statusBar.scss";
+import "./styles/outcome.scss";
 import "./assets/fonts/clacon2.woff2";
 import { App } from "./components/App";
 
