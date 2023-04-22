@@ -1,54 +1,49 @@
 #score-table {
-  font-family: Arial, Helvetica, sans-serif;
   border-collapse: collapse;
   width: 100%;
   font-size: 1rem;
+  margin-bottom: 10px;
 }
 
-#score-table td,
-#score-table th {
-  border: 1px solid #ddd;
+#score-table tr,
+#score-table td {
+  border: 2px dashed green;
   padding: 8px;
 }
 
-#score-table tr:nth-child(even) {
-  background-color: #3f56114f;
-}
-
-#score-table .score-spot:hover {
-  background-color: #ddd;
-}
-
-#score-table th {
+#score-table td {
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: left;
-  background-color: #3f56114f;
-  color: white;
+  color: green;
 }
 
 #score-table .selected {
-  color: red;
+  color: white;
 }
 
 #score-table .recorded {
-  color: green;
+  color: white;
 }
 
 @keyframes changeColor {
   0% {
-    color: white;
+    color: green;
   }
 
   50% {
-    color: red;
+    color: white;
   }
 
   100% {
-    color: white;
+    color: green;
   }
 }
 
 .playerLabel.animate {
   animation: changeColor 1s;
+}
+
+#score-table td.total-label {
+  text-align: right;
 }

@@ -28,31 +28,33 @@ export function ScoreTable() {
   const [isFirstRender, setIsFirstRender] = useState(true);
 
   useEffect(() => {
-    if(!isFirstRender){
+    if (!isFirstRender) {
       setShouldAnimate(true);
       return;
     }
-    setIsFirstRender(false)
+    setIsFirstRender(false);
   }, [currentPlayer]);
 
   return (
     <table id="score-table">
       <thead>
         <tr>
-          <th>Combo</th>
-          <th
-            className={`playerLabel ${!isFirstRender && shouldAnimate && "animate"}`}
+          <td>COMBO</td>
+          <td
+            className={`playerLabel ${
+              !isFirstRender && shouldAnimate && "animate"
+            }`}
             onAnimationEnd={() => setShouldAnimate(false)}
           >
-            {currentPlayer}
-          </th>
+            {currentPlayer.toUpperCase()}
+          </td>
         </tr>
       </thead>
       <tbody>
         {Object.values(Combination).map((combo) => (
           <tr key={combo}>
-            <th>{combo}</th>
-            <th
+            <td>{combo}</td>
+            <td
               className={`score-spot ${
                 isRecorded(combo) || isSelected(combo, selectedScore)
               }`}
@@ -60,12 +62,13 @@ export function ScoreTable() {
             >
               {recordedScores[currentPlayer][combo]?.value ??
                 evaluatedScores?.[combo]}
-            </th>
+              {isSelected(combo, selectedScore) && " <"}
+            </td>
           </tr>
         ))}
         <tr>
-          <th>Total</th>
-          <th>{total}</th>
+          <td>TOTAL</td>
+          <td className="total-label">{total}</td>
         </tr>
       </tbody>
     </table>
