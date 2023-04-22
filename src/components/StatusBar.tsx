@@ -6,19 +6,23 @@ export function StatusBar() {
   const [state] = useContext(TableContext);
   const roundStage = state.roundStage;
 
-  // todo: switch
-  const bulbs = [
-    roundStage === RoundStage.SecondRoll ||
-      roundStage === RoundStage.ThirdRoll ||
-      roundStage === RoundStage.Scoring,
-    roundStage === RoundStage.ThirdRoll || roundStage === RoundStage.Scoring,
-    roundStage === RoundStage.Scoring,
-  ];
+  const bulbStates = (() => {
+    switch (roundStage) {
+      case RoundStage.Scoring:
+        return [true, true, true];
+      case RoundStage.ThirdRoll:
+        return [true, true, false];
+      case RoundStage.SecondRoll:
+        return [true, false, false];
+      case RoundStage.FirstRoll:
+        return [false, false, false];
+    }
+  })();
 
   return (
     <div className="center-wrapper">
       <div className="status-bar">
-        {bulbs.map((isActive) => {
+        {bulbStates.map((isActive) => {
           return <span className={isActive ? "active" : ""}>o </span>;
         })}
       </div>
