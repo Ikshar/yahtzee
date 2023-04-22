@@ -1,22 +1,22 @@
 import { Combination, EvaluatedScores } from "../types/game";
 
 type UpperSection = {
-  Aces: number;
-  Twos: number;
-  Threes: number;
-  Fours: number;
-  Fives: number;
-  Sixes: number;
+  [Combination.Aces]: number;
+  [Combination.Twos]: number;
+  [Combination.Threes]: number;
+  [Combination.Fours]: number;
+  [Combination.Fives]: number;
+  [Combination.Sixes]: number;
 };
 
 type LowerSection = {
-  ThreeOfAKind: number;
-  FourOfAKind: number;
-  FullHouse: number;
-  SmallStraight: number;
-  LargeStraight: number;
-  Yahtzee: number;
-  Chance: number;
+  [Combination.ThreeOfAKind]: number;
+  [Combination.FourOfAKind]: number;
+  [Combination.FullHouse]: number;
+  [Combination.SmallStraight]: number;
+  [Combination.LargeStraight]: number;
+  [Combination.Yahtzee]: number;
+  [Combination.Chance]: number;
 };
 
 const FixedPayouts = {
@@ -36,19 +36,19 @@ function createCountMap(dice: number[]): Record<number, number> {
   return countMap;
 }
 const emptyScore = {
-  Aces: 0,
-  Twos: 0,
-  Threes: 0,
-  Fours: 0,
-  Fives: 0,
-  Sixes: 0,
-  ThreeOfAKind: 0,
-  FourOfAKind: 0,
-  FullHouse: 0,
-  SmallStraight: 0,
-  LargeStraight: 0,
-  Yahtzee: 0,
-  Chance: 0,
+  [Combination.Aces]: 0,
+  [Combination.Twos]: 0,
+  [Combination.Threes]: 0,
+  [Combination.Fours]: 0,
+  [Combination.Fives]: 0,
+  [Combination.Sixes]: 0,
+  [Combination.ThreeOfAKind]: 0,
+  [Combination.FourOfAKind]: 0,
+  [Combination.FullHouse]: 0,
+  [Combination.SmallStraight]: 0,
+  [Combination.LargeStraight]: 0,
+  [Combination.Yahtzee]: 0,
+  [Combination.Chance]: 0,
 };
 
 export function evaluateScores(dice: number[]): EvaluatedScores {
@@ -64,12 +64,12 @@ function evaluateUpperSection(dice: number[]): UpperSection {
   dice.forEach((value) => (upperSection[value - 1] += value));
 
   return {
-    Aces: upperSection[0],
-    Twos: upperSection[1],
-    Threes: upperSection[2],
-    Fours: upperSection[3],
-    Fives: upperSection[4],
-    Sixes: upperSection[5],
+    [Combination.Aces]: upperSection[0],
+    [Combination.Twos]: upperSection[1],
+    [Combination.Threes]: upperSection[2],
+    [Combination.Fours]: upperSection[3],
+    [Combination.Fives]: upperSection[4],
+    [Combination.Sixes]: upperSection[5],
   };
 }
 
@@ -77,27 +77,27 @@ function evaluateLowerSection(dice: number[]): LowerSection {
   const score: Partial<LowerSection> = {};
   const sumOfDiceValues = dice.reduce((a, v) => a + v);
 
-  score.Chance = sumOfDiceValues;
+  score[Combination.Chance] = sumOfDiceValues;
 
   if (validateFiveOfAKind(dice)) {
-    score.Yahtzee = FixedPayouts.Yahtzee;
-    score.FourOfAKind = sumOfDiceValues;
-    score.ThreeOfAKind = sumOfDiceValues;
+    score[Combination.Yahtzee] = FixedPayouts.Yahtzee;
+    score[Combination.FourOfAKind] = sumOfDiceValues;
+    score[Combination.ThreeOfAKind] = sumOfDiceValues;
   } else if (validateFourOfAKind(dice)) {
-    score.FourOfAKind = sumOfDiceValues;
-    score.ThreeOfAKind = sumOfDiceValues;
+    score[Combination.FourOfAKind] = sumOfDiceValues;
+    score[Combination.ThreeOfAKind] = sumOfDiceValues;
   } else if (validateThreeOfAKind(dice)) {
-    score.ThreeOfAKind = sumOfDiceValues;
+    score[Combination.ThreeOfAKind] = sumOfDiceValues;
     if (validateFullHouse(dice)) {
-      score.FullHouse = FixedPayouts[Combination.FullHouse];
+      score[Combination.FullHouse] = FixedPayouts[Combination.FullHouse];
     }
   }
 
   if (validateLargeStraight(dice)) {
-    score.LargeStraight = FixedPayouts[Combination.LargeStraight];
-    score.SmallStraight = FixedPayouts[Combination.SmallStraight];
+    score[Combination.LargeStraight] = FixedPayouts[Combination.LargeStraight];
+    score[Combination.SmallStraight] = FixedPayouts[Combination.SmallStraight];
   } else if (validateSmallStraight(dice)) {
-    score.SmallStraight = FixedPayouts[Combination.SmallStraight];
+    score[Combination.SmallStraight] = FixedPayouts[Combination.SmallStraight];
   }
 
   return score as LowerSection;
