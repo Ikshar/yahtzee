@@ -3,19 +3,13 @@ $dice-transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 @mixin roll-dice {
   @keyframes roll-dice {
     0% {
-      transform: scale(1) rotateZ(0);
+      color: green;
     }
-
-    25% {
-      transform: scale(1.6) rotateZ(180deg);
-    }
-
     50% {
-      transform: scale(1.2) rotateZ(90deg);
+      color: white;
     }
-
     100% {
-      transform: scale(1) rotateZ(360deg);
+      color: green;
     }
   }
 
