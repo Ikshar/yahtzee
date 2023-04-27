@@ -1,9 +1,8 @@
-.control-button {
-  position: absolute;
-  bottom: 20px;
+#control-button {
   color: white;
-  border-radius: 10px;
-  padding: 5px;
+  position: absolute;
+  bottom: 10px;
+  font-size: 33px;
 
   &.inactive {
     color: green;

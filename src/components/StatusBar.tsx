@@ -20,12 +20,10 @@ export function StatusBar() {
   })();
 
   return (
-    <div className="center-wrapper">
-      <div className="status-bar">
-        {bulbStates.map((isActive) => {
-          return <span className={isActive ? "active" : ""}>o </span>;
-        })}
-      </div>
+    <div id="status-bar" className="center-wrapper">
+      {bulbStates.map((isActive) => {
+        return <span className={isActive ? "active" : ""}>o </span>;
+      })}
     </div>
   );
 }

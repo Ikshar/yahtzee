@@ -1,15 +1,13 @@
-$border-color: 2px dashed green;
-
 #score-table {
   border-collapse: collapse;
+  height: 70%;
   width: 100%;
-  font-size: 1rem;
-  margin-bottom: 10px;
 
   tr,
   td {
-    border: $border-color;
-    padding: 8px;
+    border: 2px dashed green;
+    padding: 4px;
+    font-size: 20px;
   }
 
   td {
@@ -48,4 +46,11 @@ $border-color: 2px dashed green;
 
 .playerLabel.animate {
   animation: changeColor 1s;
+}
+
+@media only screen and (min-width: 600px) {
+  #score-table {
+    border: 1px dashed green;
+    color: red
+  }
 }

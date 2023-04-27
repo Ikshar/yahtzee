@@ -1,6 +1,5 @@
 import * as React from "react";
 import { createRoot } from "react-dom/client";
-import "./styles/styles.scss";
 import "./styles/layout.scss";
 import "./styles/scoreTable.scss";
 import "./styles/dice.scss";
@@ -12,6 +11,7 @@ import { App } from "./components/App";
 
 createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
+    <div id="overlay">Please switch to portrait mode</div>
     <App />
   </React.StrictMode>
 );
