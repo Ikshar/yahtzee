@@ -45,42 +45,44 @@ export function ScoreTable() {
   }, [currentPlayer]);
 
   return (
-    <table id="score-table">
-      <thead>
-        <tr>
-          <td>COMBO</td>
-          <td
-            className={`playerLabel ${
-              !isFirstRender && shouldAnimate && "animate"
-            }`}
-            onAnimationEnd={() => setShouldAnimate(false)}
-          >
-            {currentPlayer.toUpperCase()}
-          </td>
-        </tr>
-      </thead>
-      <tbody>
-        {Object.values(Combination).map((combo) => (
-          <tr key={combo}>
-            <td>{combo}</td>
+    <div className="center-wrapper">
+      <table id="score-table">
+        <thead>
+          <tr>
+            <td>COMBO</td>
             <td
-              className={`score-spot ${
-                isRecorded(combo) || isSelected(combo, selectedScore)
+              className={`playerLabel ${
+                !isFirstRender && shouldAnimate && "animate"
               }`}
-              onClick={() => handleClick(state, dispatch, combo)}
+              onAnimationEnd={() => setShouldAnimate(false)}
             >
-              {recordedScores[currentPlayer][combo]?.value ??
-                evaluatedScores?.[combo]}
-              {isSelected(combo, selectedScore) && " <"}
+              {currentPlayer.toUpperCase()}
             </td>
           </tr>
-        ))}
-        <tr>
-          <td>TOTAL</td>
-          <td className="total-label">{selectedTotal}</td>
-        </tr>
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {Object.values(Combination).map((combo) => (
+            <tr key={combo}>
+              <td>{combo}</td>
+              <td
+                className={`score-spot ${
+                  isRecorded(combo) || isSelected(combo, selectedScore)
+                }`}
+                onClick={() => handleClick(state, dispatch, combo)}
+              >
+                {recordedScores[currentPlayer][combo]?.value ??
+                  evaluatedScores?.[combo]}
+                {isSelected(combo, selectedScore) && " <"}
+              </td>
+            </tr>
+          ))}
+          <tr>
+            <td>TOTAL</td>
+            <td className="total-label">{selectedTotal}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   );
 }
 

@@ -10,7 +10,13 @@ $outcome-animation-duration: 3s;
 
   .happy-message {
     color: white;
+    font-size: 2em;
     animation: happy-message $outcome-animation-duration ease-in-out infinite;
+  }
+  .score-message{
+    color: green;
+    font-size: 2em;
+    
   }
 }
 

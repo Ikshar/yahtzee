@@ -34,12 +34,10 @@ export function Game() {
         </div>
       ) : (
         // todo: make outcome screen component
-        <div className="center-wrapper">
           <div className="outcome-screen">
-            <div>{`${player1Score} vs ${player2Score}`}</div>
+            <div className="score-message">{`${player1Score} vs ${player2Score}`}</div>
             <div className="happy-message">{happyMessage}</div>
           </div>
-        </div>
       )}
       <ControlButton />
     </div>

@@ -18,7 +18,7 @@ export const initialState: GameState = {
   },
   evaluatedScores: undefined,
   shouldAnimateDice: false,
-  currentRound: 26,
+  currentRound: 1,
 };
 
 export const TableContext = createContext<Store>([initialState, () => {}]);

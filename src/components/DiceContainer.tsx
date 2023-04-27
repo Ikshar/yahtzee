@@ -6,12 +6,10 @@ import { DiceValues } from "../types/game";
 export function DiceContainer() {
   const [state] = useContext(TableContext);
   return (
-    <div className="center-wrapper dice-container-wrapper">
-      <div className="dice-container">
-        {state.values.map((value, idx) => (
-          <Die key={idx} idx={idx} value={DiceValues[value - 1]} />
-        ))}
-      </div>
+    <div id="dice-container" className="center-wrapper">
+      {state.values.map((value, idx) => (
+        <Die key={idx} idx={idx} value={DiceValues[value - 1]} />
+      ))}
     </div>
   );
 }

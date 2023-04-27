@@ -1,11 +1,13 @@
-.status-bar-wrapper {
-  position: relative;
-}
-
-.status-bar {
+#status-bar {
     color: green;
+    height: 5vh;
+    width: 100%;
+    font-size: 33px;
+}
+#status-bar span{
+  padding-right: 10px;
 }
 
-.status-bar .active{
+#status-bar .active{
   color: white
 }

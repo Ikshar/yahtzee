@@ -8,11 +8,9 @@ export function App() {
 
   return (
     <div id="app">
-      <div className="back">
-        <TableContextProvider value={store}>
-          <Game/>
-        </TableContextProvider>
-      </div>
+      <TableContextProvider value={store}>
+        <Game />
+      </TableContextProvider>
     </div>
   );
 }
