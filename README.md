@@ -1,30 +1,32 @@
-# Yahtzee!
+_you can also try to play the [build](https://ikshar.github.io/yahtzee/)_
 
-Rules: https://www.hasbro.com/common/instruct/yahtzee.pdf
+` 🎲  There is no luck in this world, only probability.`
 
-#
-### The flow is:
+---
 
-- open the app
-- add players, input names
-- click start
-- dice are empty
-- go through round stages
-- left empty scores ? end : player changes
-- ...
-- calculate sum
-- evaluate winner
-- PROFIT!?!???
+## Yahtzee Rules
 
-#
-### Round stages are:
+### 🌟 Gameplay
 
-- `FirstRoll` - Player rolls all dice
-- `SecondRoll` - Player adds score to the table OR Player holds the dice and rerolls
-- `ThirdRoll` - Player adds score to the table OR Player holds the dice and rerolls
-- `Scoring` - Player adds score to the table
+- On your turn, roll all 5 dice.
+- After rolling, you can choose to keep any number of dice and reroll the rest.
+- You can (but not obligated to) do this up to two more times for a total of three rolls on your turn.
+- After your third roll, you must choose a scoring category for your turn.
+- Mark your score on the scorecard and pass the turn to the next player.
 
-### Game Stages are:
+### 📒 Scoring
 
-- `ActiveRound` - Includes all round stages
-- `GameOutcome` - The winner is praised
+The following combinations of dice can be scored:
+
+- Ones, Twos, Threes, Fours, Fives, Sixes: Score the sum of all dice that show that number.
+- Three of a Kind: Score the sum of all dice if you have three or more of the same number.
+- Four of a Kind: Score the sum of all dice if you have four or more of the same number.
+- Full House: Score 25 points if you have three of one number and two of another number.
+- Small Straight: Score 30 points if you have four dice in sequence.
+- Large Straight: Score 40 points if you have five dice in sequence.
+- Yahtzee: Score 50 points if you have all five dice with the same number.
+- Chance: Score the sum of all dice, regardless of what they are.
+
+### ✨ End of the Game
+
+The game ends when both players have had a turn for each of the 13 categories on the scorecard. The player with the highest total score wins the game!
