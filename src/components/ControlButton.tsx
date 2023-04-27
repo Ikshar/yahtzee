@@ -58,13 +58,13 @@ export function ControlButton() {
 
   return (
     <div className="center-wrapper">
-    <div
-      id="control-button"
-      className={`${isInactive ? "inactive" : ""}`}
-      onClick={handleClick}
-    >
-      {buttonLabel}
-    </div>
+      <div
+        id="control-button"
+        className={`${isInactive ? "inactive" : ""}`}
+        onClick={handleClick}
+      >
+        {buttonLabel}
+      </div>
     </div>
   );
 }
