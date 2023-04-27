@@ -19,7 +19,7 @@ body {
   width: 95vw;
   height: 100vh;
   max-width: 444px;
-  max-height: 888px;
+  max-height: 999px;
   margin: auto;
   position: relative;
 }
@@ -93,7 +93,7 @@ body {
   height: 100vh;
 }
 
-@media screen and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 2) {
+@media screen and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 3) {
   #overlay {
     display: flex;
     justify-content: center;
