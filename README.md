@@ -1,5 +1,3 @@
-_you can also try to play the [build](https://ikshar.github.io/yahtzee/)_
-
 ` 🎲  There is no luck in this world, only probability.`
 
 ---
